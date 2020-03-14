@@ -92,6 +92,16 @@ const SPIKES_TILES = [
   [26, 10],
 ]
 
+const RIGHT_FACING_SPIKE_TILES = [
+  [3, 3],
+  [3, 4],
+]
+
+const DOWN_FACING_SPIKE_TILES = [
+  [14, 4],
+  [15, 4],
+]
+
 const GOAL = [25, 3]
 
 class Scene2 extends Phaser.Scene {
@@ -104,6 +114,8 @@ class Scene2 extends Phaser.Scene {
   preload() {
     this.load.image('owl', 'assets/owl.png') // 32px x 32px
     this.load.image('platform_tile', 'assets/platform_tile.png') // 32px x 32px
+    this.load.image('spike_down_tile', 'assets/spike_down_tile.png') // 12px x 32px
+    this.load.image('spike_right_tile', 'assets/spike_right_tile.png') // 12px x 32px
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
     this.load.image('goal', 'assets/aplus.png') // 32px x 32px
   }
@@ -120,6 +132,16 @@ class Scene2 extends Phaser.Scene {
     }
     function getSpikeScreenYCoordinate(tileNumber, tileSize) {
       const origin = tileSize - 6
+      // -1 due to 1 based indexing
+      return origin + (tileNumber - 1) * tileSize
+    }
+    function getRightSpikeScreenXCoordinate(tileNumber, tileSize) {
+      const origin = 6
+      // -1 due to 1 based indexing
+      return origin + (tileNumber - 1) * tileSize
+    }
+    function getDownSpikeScreenYCoordinate(tileNumber, tileSize) {
+      const origin = 6
       // -1 due to 1 based indexing
       return origin + (tileNumber - 1) * tileSize
     }
@@ -159,6 +181,18 @@ class Scene2 extends Phaser.Scene {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getSpikeScreenYCoordinate(coordinate[1], TILE_SIZE)
       return spikes.create(x, y, 'spike_tile')
+    })
+    RIGHT_FACING_SPIKE_TILES.forEach(coordinate => {
+      const x = getRightSpikeScreenXCoordinate(coordinate[0], TILE_SIZE)
+      const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
+      const spike = spikes.create(x, y, 'spike_right_tile')
+      spikesCreated.push(spike)
+    })
+    DOWN_FACING_SPIKE_TILES.forEach(coordinate => {
+      const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
+      const y = getDownSpikeScreenYCoordinate(coordinate[1], TILE_SIZE)
+      const spike = spikes.create(x, y, 'spike_down_tile')
+      spikesCreated.push(spike)
     })
     // hide spikes
     // spikesCreated.map(spike => {
@@ -255,9 +289,9 @@ class Scene2 extends Phaser.Scene {
     }
     const date = new Date()
     const timeNow = date.getTime()
-    const timeDiffInSeconds = (timeNow - this.timeStart) / 1000
-    const timeInHours = Math.round(timeDiffInSeconds / 3600)
-    const timeInMinutes = Math.round(timeDiffInSeconds / 60) % 3600
+    const timeDiffInSeconds = Math.round((timeNow - this.timeStart) / 1000)
+    const timeInHours = Math.floor(timeDiffInSeconds / 3600)
+    const timeInMinutes = Math.floor(timeDiffInSeconds / 60) % 3600
     const timeInSeconds = Math.round(timeDiffInSeconds) % 60
     return `${padWithZero(timeInHours)}:${padWithZero(
       timeInMinutes,
