@@ -107,7 +107,6 @@ class Scene2 extends Phaser.Scene {
       // -1 due to 1 based indexing
       return origin + (tileNumber - 1) * tileSize
     }
-
     function getSpikeScreenYCoordinate(tileNumber, tileSize) {
       const origin = tileSize - 6
       // -1 due to 1 based indexing
@@ -118,27 +117,35 @@ class Scene2 extends Phaser.Scene {
     this.deathCounterText = this.add.text(
       16,
       16,
-      'deaths: ' + this.deathCounter,
+      this.getDeathCounterText(this.deathCounter),
       {
         fontSize: '24px',
         fill: '#FFF',
       },
     )
 
-    // build platforms
+    // create platforms
     const platforms = this.physics.add.staticGroup()
-    PLATFORM_TILES.map(coordinate => {
+    const platformsCreated = PLATFORM_TILES.map(coordinate => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
-      platforms.create(x, y, 'platform_tile')
+      return platforms.create(x, y, 'platform_tile')
+    })
+    // hide platforms
+    platformsCreated.map(platform => {
+      platform.setVisible(false)
     })
 
-    // build spikes
+    // create spikes
     const spikes = this.physics.add.staticGroup()
-    SPIKES_TILES.map(coordinate => {
+    const spikesCreated = SPIKES_TILES.map(coordinate => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getSpikeScreenYCoordinate(coordinate[1], TILE_SIZE)
-      spikes.create(x, y, 'spike_tile')
+      return spikes.create(x, y, 'spike_tile')
+    })
+    // hide spikes
+    spikesCreated.map(spike => {
+      spike.setVisible(false)
     })
 
     this.playerStartingX = getScreenCoordinate(2, TILE_SIZE)
@@ -184,13 +191,27 @@ class Scene2 extends Phaser.Scene {
   }
 
   hitSpikes(pointer, gameObject) {
+    if (this.gameOver) {
+      // debounce collision
+      return
+    }
     console.log('HIT SPIKE')
     this.gameOver = true
+    this.updateDeathCounter()
     setTimeout(() => {
       this.gameOver = false
       this.player.x = this.playerStartingX
       this.player.y = this.playerStartingY
     }, 1000)
+  }
+
+  updateDeathCounter() {
+    this.deathCounter = this.deathCounter + 1
+    this.deathCounterText.setText(this.getDeathCounterText(this.deathCounter))
+  }
+
+  getDeathCounterText(count) {
+    return 'deaths: ' + count
   }
 }
 
