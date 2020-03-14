@@ -1,4 +1,10 @@
-import { TILE_SIZE } from './utils.js'
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  TAUNTS,
+  TILE_SIZE,
+  TIMEOUT_DURATION,
+} from './utils.js'
 
 const PLATFORM_TILES = [
   [1, 13],
@@ -86,6 +92,8 @@ const SPIKES_TILES = [
   [26, 10],
 ]
 
+const GOAL = [25, 3]
+
 class Scene2 extends Phaser.Scene {
   constructor() {
     super('playGame')
@@ -148,6 +156,7 @@ class Scene2 extends Phaser.Scene {
       spike.setVisible(false)
     })
 
+    // create player
     this.playerStartingX = getScreenCoordinate(2, TILE_SIZE)
     this.playerStartingY = getScreenCoordinate(12, TILE_SIZE)
     this.player = this.physics.add.sprite(
@@ -177,7 +186,7 @@ class Scene2 extends Phaser.Scene {
     }
 
     if (this.cursors.up.isUp) {
-      // devounce jump
+      // debounce jump
       this.canJump = true
     }
     if (
@@ -195,14 +204,14 @@ class Scene2 extends Phaser.Scene {
       // debounce collision
       return
     }
-    console.log('HIT SPIKE')
     this.gameOver = true
     this.updateDeathCounter()
+    this.showMotivationalText(TAUNTS)
     setTimeout(() => {
       this.gameOver = false
       this.player.x = this.playerStartingX
       this.player.y = this.playerStartingY
-    }, 1000)
+    }, TIMEOUT_DURATION)
   }
 
   updateDeathCounter() {
@@ -212,6 +221,25 @@ class Scene2 extends Phaser.Scene {
 
   getDeathCounterText(count) {
     return 'deaths: ' + count
+  }
+
+  showMotivationalText(taunts) {
+    // select random taunt
+    var taunt = taunts[Math.floor(Math.random() * taunts.length)]
+    // add text
+    const text = this.add
+      .text(
+        (SCREEN_WIDTH * TILE_SIZE) / 2,
+        (SCREEN_HEIGHT * TILE_SIZE) / 2,
+        taunt,
+      )
+      .setFontSize(32)
+      .setFontFamily('Arial')
+      .setOrigin(0.5)
+    // remove text after 1s
+    setTimeout(() => {
+      text.destroy()
+    }, TIMEOUT_DURATION)
   }
 }
 
