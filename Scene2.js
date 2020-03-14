@@ -110,6 +110,8 @@ class Scene2 extends Phaser.Scene {
 
   create() {
     this.deathCounter = 0
+    const date = new Date()
+    this.timeStart = date.getTime()
 
     function getScreenCoordinate(tileNumber, tileSize) {
       const origin = tileSize / 2
@@ -133,6 +135,12 @@ class Scene2 extends Phaser.Scene {
       },
     )
 
+    // timer
+    this.timerText = this.add.text(700, 16, this.getTimerText(), {
+      fontSize: '24px',
+      fill: '#FFF',
+    })
+
     // create platforms
     const platforms = this.physics.add.staticGroup()
     const platformsCreated = PLATFORM_TILES.map(coordinate => {
@@ -141,9 +149,9 @@ class Scene2 extends Phaser.Scene {
       return platforms.create(x, y, 'platform_tile')
     })
     // hide platforms
-    platformsCreated.map(platform => {
-      platform.setVisible(false)
-    })
+    // platformsCreated.map(platform => {
+    //   platform.setVisible(false)
+    // })
 
     // create spikes
     const spikes = this.physics.add.staticGroup()
@@ -153,9 +161,9 @@ class Scene2 extends Phaser.Scene {
       return spikes.create(x, y, 'spike_tile')
     })
     // hide spikes
-    spikesCreated.map(spike => {
-      spike.setVisible(false)
-    })
+    // spikesCreated.map(spike => {
+    //   spike.setVisible(false)
+    // })
 
     // create goal
     const goal = this.physics.add.staticGroup()
@@ -205,6 +213,9 @@ class Scene2 extends Phaser.Scene {
       this.player.setVelocityY(-380)
       this.canJump = false
     }
+
+    // update timer
+    this.timerText.setText(this.getTimerText())
   }
 
   hitSpikes(pointer, gameObject) {
@@ -238,6 +249,21 @@ class Scene2 extends Phaser.Scene {
     return 'deaths: ' + count
   }
 
+  getTimerText() {
+    function padWithZero(num) {
+      return ('0' + num).slice(-2)
+    }
+    const date = new Date()
+    const timeNow = date.getTime()
+    const timeDiffInSeconds = (timeNow - this.timeStart) / 1000
+    const timeInHours = Math.round(timeDiffInSeconds / 3600)
+    const timeInMinutes = Math.round(timeDiffInSeconds / 60) % 3600
+    const timeInSeconds = Math.round(timeDiffInSeconds) % 60
+    return `${padWithZero(timeInHours)}:${padWithZero(
+      timeInMinutes,
+    )}:${padWithZero(timeInSeconds)}`
+  }
+
   showMotivationalText(taunts) {
     // select random taunt
     var taunt = taunts[Math.floor(Math.random() * taunts.length)]
@@ -248,8 +274,7 @@ class Scene2 extends Phaser.Scene {
         (SCREEN_HEIGHT * TILE_SIZE) / 2,
         taunt,
       )
-      .setFontSize(32)
-      .setFontFamily('Arial')
+      .setFontSize(24)
       .setOrigin(0.5)
     // remove text after 1s
     setTimeout(() => {
@@ -265,7 +290,6 @@ class Scene2 extends Phaser.Scene {
         'NM4227 Final Grade A+',
       )
       .setFontSize(64)
-      .setFontFamily('Arial')
       .setOrigin(0.5)
   }
 }
