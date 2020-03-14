@@ -1,0 +1,14 @@
+{
+  "name": "nm4227",
+  "version": "1.0.0",
+  "description": "40% of our grade is at stake here",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "nm4227",
+    "alex",
+    "mitchell"
+  ],
+  "author": "shaohui",
+  "license": "ISC"
+}
