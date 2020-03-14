@@ -105,6 +105,7 @@ class Scene2 extends Phaser.Scene {
     this.load.image('owl', 'assets/owl.png') // 32px x 32px
     this.load.image('platform_tile', 'assets/platform_tile.png') // 32px x 32px
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
+    this.load.image('goal', 'assets/aplus.png') // 32px x 32px
   }
 
   create() {
@@ -156,6 +157,12 @@ class Scene2 extends Phaser.Scene {
       spike.setVisible(false)
     })
 
+    // create goal
+    const goal = this.physics.add.staticGroup()
+    const goalX = getScreenCoordinate(GOAL[0], TILE_SIZE)
+    const goalY = getSpikeScreenYCoordinate(GOAL[1], TILE_SIZE)
+    goal.create(goalX, goalY, 'goal')
+
     // create player
     this.playerStartingX = getScreenCoordinate(2, TILE_SIZE)
     this.playerStartingY = getScreenCoordinate(12, TILE_SIZE)
@@ -168,6 +175,7 @@ class Scene2 extends Phaser.Scene {
     this.player.setCollideWorldBounds(true)
     this.physics.add.collider(this.player, platforms)
     this.physics.add.collider(this.player, spikes, this.hitSpikes, null, this)
+    this.physics.add.collider(this.player, goal, this.reachGoal, null, this)
 
     this.cursors = this.input.keyboard.createCursorKeys()
   }
@@ -205,6 +213,8 @@ class Scene2 extends Phaser.Scene {
       return
     }
     this.gameOver = true
+    this.player.setVelocityX(0)
+    this.player.setVelocityY(0)
     this.updateDeathCounter()
     this.showMotivationalText(TAUNTS)
     setTimeout(() => {
@@ -212,6 +222,11 @@ class Scene2 extends Phaser.Scene {
       this.player.x = this.playerStartingX
       this.player.y = this.playerStartingY
     }, TIMEOUT_DURATION)
+  }
+
+  reachGoal() {
+    this.showVictoryText()
+    this.gameOver = true
   }
 
   updateDeathCounter() {
@@ -240,6 +255,18 @@ class Scene2 extends Phaser.Scene {
     setTimeout(() => {
       text.destroy()
     }, TIMEOUT_DURATION)
+  }
+
+  showVictoryText() {
+    const text = this.add
+      .text(
+        (SCREEN_WIDTH * TILE_SIZE) / 2,
+        (SCREEN_HEIGHT * TILE_SIZE) / 2,
+        'NM4227 Final Grade A+',
+      )
+      .setFontSize(64)
+      .setFontFamily('Arial')
+      .setOrigin(0.5)
   }
 }
 
