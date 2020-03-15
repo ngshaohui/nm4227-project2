@@ -118,6 +118,11 @@ class Scene2 extends Phaser.Scene {
     this.load.image('spike_right_tile', 'assets/spike_right_tile.png') // 12px x 32px
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
     this.load.image('goal', 'assets/aplus.png') // 32px x 32px
+
+    this.load.audio('audio_death', 'assets/audio/death_b.mp3')
+    this.load.audio('audio_jump', 'assets/audio/jump.mp3')
+    this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
+    this.load.audio('audio_walk', 'assets/audio/walk.mp3')
   }
 
   create() {
@@ -214,6 +219,12 @@ class Scene2 extends Phaser.Scene {
       'owl',
     )
 
+    // audio
+    this.deathSound = this.sound.add('audio_death')
+    this.jumpSound = this.sound.add('audio_jump')
+    this.respawnSound = this.sound.add('audio_respawn')
+    this.walkSound = this.sound.add('audio_walk')
+
     this.player.setCollideWorldBounds(true)
     this.physics.add.collider(this.player, platforms)
     this.physics.add.collider(this.player, spikes, this.hitSpikes, null, this)
@@ -228,8 +239,10 @@ class Scene2 extends Phaser.Scene {
     }
 
     if (this.cursors.left.isDown) {
+      this.walkSound.play()
       this.player.setVelocityX(-120)
     } else if (this.cursors.right.isDown) {
+      this.walkSound.play()
       this.player.setVelocityX(120)
     } else {
       this.player.setVelocityX(0)
@@ -245,6 +258,7 @@ class Scene2 extends Phaser.Scene {
       this.player.body.touching.down
     ) {
       this.player.setVelocityY(-380)
+      this.jumpSound.play()
       this.canJump = false
     }
 
@@ -260,10 +274,12 @@ class Scene2 extends Phaser.Scene {
     this.gameOver = true
     this.player.setVelocityX(0)
     this.player.setVelocityY(0)
+    this.deathSound.play()
     this.updateDeathCounter()
     this.showMotivationalText(TAUNTS)
     setTimeout(() => {
       this.gameOver = false
+      this.respawnSound.play()
       this.player.x = this.playerStartingX
       this.player.y = this.playerStartingY
     }, TIMEOUT_DURATION)
