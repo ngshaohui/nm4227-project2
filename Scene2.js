@@ -5,6 +5,7 @@ import {
   TILE_SIZE,
   TIMEOUT_DURATION,
 } from './utils.js'
+import { DEBUG } from './env.js'
 
 const PLATFORM_TILES = [
   [1, 13],
@@ -176,9 +177,11 @@ class Scene2 extends Phaser.Scene {
       return platforms.create(x, y, 'platform_tile')
     })
     // hide platforms
-    // platformsCreated.map(platform => {
-    //   platform.setVisible(false)
-    // })
+    if (!DEBUG) {
+      platformsCreated.map(platform => {
+        platform.setVisible(false)
+      })
+    }
 
     // create spikes
     const spikes = this.physics.add.staticGroup()
@@ -200,9 +203,11 @@ class Scene2 extends Phaser.Scene {
       spikesCreated.push(spike)
     })
     // hide spikes
-    // spikesCreated.map(spike => {
-    //   spike.setVisible(false)
-    // })
+    if (!DEBUG) {
+      spikesCreated.map(spike => {
+        spike.setVisible(false)
+      })
+    }
 
     // create goal
     const goal = this.physics.add.staticGroup()
