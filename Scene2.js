@@ -239,11 +239,15 @@ class Scene2 extends Phaser.Scene {
     }
 
     if (this.cursors.left.isDown) {
-      this.walkSound.play()
       this.player.setVelocityX(-120)
+      if (this.player.body.touching.down) {
+        this.walkSound.play()
+      }
     } else if (this.cursors.right.isDown) {
-      this.walkSound.play()
       this.player.setVelocityX(120)
+      if (this.player.body.touching.down) {
+        this.walkSound.play()
+      }
     } else {
       this.player.setVelocityX(0)
     }
