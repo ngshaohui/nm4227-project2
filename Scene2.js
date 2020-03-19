@@ -239,7 +239,7 @@ class Scene2 extends Phaser.Scene {
     this.player = this.physics.add.sprite(
       this.playerStartingX,
       this.playerStartingY,
-      'avatar_left_walk_1',
+      'avatar_right_walk_1',
     )
     this.player.setSize(14, 26, 2, 0) // modify bounding box
     this.anims.create({
@@ -389,7 +389,7 @@ class Scene2 extends Phaser.Scene {
   }
 
   showVictoryText() {
-    const text = this.add
+    this.add
       .text(
         (SCREEN_WIDTH * TILE_SIZE) / 2,
         (SCREEN_HEIGHT * TILE_SIZE) / 2,
