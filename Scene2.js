@@ -241,6 +241,7 @@ class Scene2 extends Phaser.Scene {
       this.playerStartingY,
       'avatar_left_walk_1',
     )
+    this.player.setSize(14, 26, 2, 0) // modify bounding box
     this.anims.create({
       key: 'walk_left',
       frames: [
@@ -251,7 +252,7 @@ class Scene2 extends Phaser.Scene {
         { key: 'avatar_left_walk_5' },
         { key: 'avatar_left_walk_6' },
       ],
-      frameRate: 10,
+      frameRate: 24,
       repeat: 0,
     })
     this.anims.create({
@@ -264,7 +265,7 @@ class Scene2 extends Phaser.Scene {
         { key: 'avatar_right_walk_5' },
         { key: 'avatar_right_walk_6' },
       ],
-      frameRate: 10,
+      frameRate: 24,
       repeat: 0,
     })
 
