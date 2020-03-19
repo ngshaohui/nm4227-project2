@@ -113,7 +113,25 @@ class Scene2 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('owl', 'assets/owl.png') // 32px x 32px
+    this.load.image('avatar_left_jump_1', 'assets/avatar/left-jump-1.png')
+    this.load.image('avatar_left_jump_2', 'assets/avatar/left-jump-2.png')
+    this.load.image('avatar_left_jump_3', 'assets/avatar/left-jump-3.png')
+    this.load.image('avatar_right_jump_1', 'assets/avatar/right-jump-1.png')
+    this.load.image('avatar_right_jump_2', 'assets/avatar/right-jump-2.png')
+    this.load.image('avatar_right_jump_3', 'assets/avatar/right-jump-3.png')
+    this.load.image('avatar_left_walk_1', 'assets/avatar/left-step-1.png')
+    this.load.image('avatar_left_walk_2', 'assets/avatar/left-step-2.png')
+    this.load.image('avatar_left_walk_3', 'assets/avatar/left-step-3.png')
+    this.load.image('avatar_left_walk_4', 'assets/avatar/left-step-4.png')
+    this.load.image('avatar_left_walk_5', 'assets/avatar/left-step-5.png')
+    this.load.image('avatar_left_walk_6', 'assets/avatar/left-step-6.png')
+    this.load.image('avatar_right_walk_1', 'assets/avatar/right-step-1.png')
+    this.load.image('avatar_right_walk_2', 'assets/avatar/right-step-2.png')
+    this.load.image('avatar_right_walk_3', 'assets/avatar/right-step-3.png')
+    this.load.image('avatar_right_walk_4', 'assets/avatar/right-step-4.png')
+    this.load.image('avatar_right_walk_5', 'assets/avatar/right-step-5.png')
+    this.load.image('avatar_right_walk_6', 'assets/avatar/right-step-6.png')
+
     this.load.image('platform_tile', 'assets/platform_tile.png') // 32px x 32px
     this.load.image('spike_down_tile', 'assets/spike_down_tile.png') // 12px x 32px
     this.load.image('spike_right_tile', 'assets/spike_right_tile.png') // 12px x 32px
@@ -221,8 +239,34 @@ class Scene2 extends Phaser.Scene {
     this.player = this.physics.add.sprite(
       this.playerStartingX,
       this.playerStartingY,
-      'owl',
+      'avatar_left_walk_1',
     )
+    this.anims.create({
+      key: 'walk_left',
+      frames: [
+        { key: 'avatar_left_walk_1' },
+        { key: 'avatar_left_walk_2' },
+        { key: 'avatar_left_walk_3' },
+        { key: 'avatar_left_walk_4' },
+        { key: 'avatar_left_walk_5' },
+        { key: 'avatar_left_walk_6' },
+      ],
+      frameRate: 10,
+      repeat: 0,
+    })
+    this.anims.create({
+      key: 'walk_right',
+      frames: [
+        { key: 'avatar_right_walk_1' },
+        { key: 'avatar_right_walk_2' },
+        { key: 'avatar_right_walk_3' },
+        { key: 'avatar_right_walk_4' },
+        { key: 'avatar_right_walk_5' },
+        { key: 'avatar_right_walk_6' },
+      ],
+      frameRate: 10,
+      repeat: 0,
+    })
 
     // audio
     this.deathSound = this.sound.add('audio_death')
@@ -246,11 +290,13 @@ class Scene2 extends Phaser.Scene {
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-120)
       if (this.player.body.touching.down) {
+        this.player.anims.play('walk_left', true)
         this.walkSound.play()
       }
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(120)
       if (this.player.body.touching.down) {
+        this.player.anims.play('walk_right', true)
         this.walkSound.play()
       }
     } else {
