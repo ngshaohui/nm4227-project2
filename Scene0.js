@@ -3,10 +3,28 @@ class Scene0 extends Phaser.Scene {
     super('bootGame')
   }
 
+  preload() {
+    this.load.image('intro_screen', 'assets/intro_screen.png')
+  }
+
   create() {
-    this.add.text(20, 20, 'Loading game...')
-    setTimeout(() => {
-      this.scene.start('playGame')
-    }, 1000)
+    const intro_screen = this.add.image(
+      this.cameras.main.width / 2,
+      this.cameras.main.height / 2,
+      'intro_screen',
+    )
+    const scaleX = this.cameras.main.width / intro_screen.width
+    const scaleY = this.cameras.main.height / intro_screen.height
+    const scale = Math.min(scaleX, scaleY)
+    intro_screen.setScale(scale).setScrollFactor(0)
+
+    const startTutorial = () => this.scene.start('learnGame')
+    this.input.keyboard.on('keydown_ENTER', () => {
+      setTimeout(() => {
+        startTutorial()
+      }, 200)
+    })
   }
 }
+
+export { Scene0 }
