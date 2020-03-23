@@ -1,7 +1,7 @@
 const SCREEN_HEIGHT = 14
 const SCREEN_WIDTH = 26
 const TILE_SIZE = 32
-const TIMEOUT_DURATION = 2000
+const TIMEOUT_DURATION = 3500
 
 const POSITIVE_MESSAGES = [
   'Come on you can do it',
