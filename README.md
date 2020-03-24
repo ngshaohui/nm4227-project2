@@ -7,11 +7,11 @@
 
 ## How to Run
 
-1.1 Start python 3 server
+1. Start python 3 server
    > `python3 -m http.server 8080`
-1.2 Start python 2 server (python 2 is included by default on macOS)
+2. (alternative) Start python 2 server (python 2 is included by default on macOS)
    > `python -m SimpleHTTPServer 8080`
-2. Navigate to `localhost:8080` on your browser
+3. Navigate to `localhost:8080` on your browser
 
 Do note that newer installations of python3 are just called python. In this case change the start server command as necessary.
 Do note that you should also be able to host it with any other server such as express or apache
