@@ -327,6 +327,10 @@ class Scene2 extends Phaser.Scene {
       // debounce collision
       return
     }
+    gameObject.setVisible(true)
+    setTimeout(() => {
+      gameObject.setVisible(false)
+    }, 500)
     this.gameOver = true
     this.player.setVelocityX(0)
     this.player.setVelocityY(0)
