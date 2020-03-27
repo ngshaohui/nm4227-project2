@@ -302,7 +302,7 @@ class Scene1 extends Phaser.Scene {
       .text(
         (SCREEN_WIDTH * TILE_SIZE) / 2,
         (SCREEN_HEIGHT * TILE_SIZE) / 2,
-        'GET YO ASS READY',
+        'brace yourself',
       )
       .setFontSize(64)
       .setOrigin(0.5)
