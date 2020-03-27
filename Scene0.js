@@ -20,9 +20,7 @@ class Scene0 extends Phaser.Scene {
 
     const startTutorial = () => this.scene.start('learnGame')
     this.input.keyboard.on('keydown_ENTER', () => {
-      setTimeout(() => {
-        startTutorial()
-      }, 200)
+      startTutorial()
     })
   }
 }
