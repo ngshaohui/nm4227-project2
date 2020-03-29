@@ -135,6 +135,9 @@ class Scene1 extends Phaser.Scene {
     this.load.audio('audio_jump', 'assets/audio/jump.mp3')
     this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
     this.load.audio('audio_walk', 'assets/audio/walk.mp3')
+
+    this.load.image('tut_taunt1', 'assets/taunts/tut_taunt1.png') // 384px x 101px
+    this.load.image('tut_taunt2', 'assets/taunts/tut_taunt2.png') // 384px x 101px
   }
 
   create() {

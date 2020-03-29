@@ -142,6 +142,29 @@ class Scene2 extends Phaser.Scene {
     this.load.audio('audio_jump', 'assets/audio/jump.mp3')
     this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
     this.load.audio('audio_walk', 'assets/audio/walk.mp3')
+
+    this.load.image('1st_taunt', 'assets/taunts/1st_taunt.png') // 384px x 101px
+    this.load.image('2nd_taunt', 'assets/taunts/2nd_taunt.png') // 384px x 101px
+    this.load.image('3rd_taunt', 'assets/taunts/3rd_taunt.png') // 384px x 101px
+    this.load.image('bbtaunt1', 'assets/taunts/bbtaunt1.png') // 384px x 101px
+    this.load.image('bbtaunt2', 'assets/taunts/bbtaunt2.png') // 384px x 101px
+    this.load.image('bbtaunt3', 'assets/taunts/bbtaunt3.png') // 384px x 101px
+    this.load.image('taunt1', 'assets/taunts/taunt1.png') // 384px x 101px
+    this.load.image('taunt2', 'assets/taunts/taunt2.png') // 384px x 101px
+    this.load.image('taunt3', 'assets/taunts/taunt3.png') // 384px x 101px
+    this.load.image('taunt4', 'assets/taunts/taunt4.png') // 384px x 101px
+    this.load.image('taunt5', 'assets/taunts/taunt5.png') // 384px x 101px
+    this.load.image('taunt6', 'assets/taunts/taunt6.png') // 384px x 101px
+    this.load.image('taunt7', 'assets/taunts/taunt7.png') // 384px x 101px
+    this.load.image('taunt8', 'assets/taunts/taunt8.png') // 384px x 101px
+    this.load.image('taunt9', 'assets/taunts/taunt9.png') // 384px x 101px
+    this.load.image('taunt10', 'assets/taunts/taunt10.png') // 384px x 101px
+    this.load.image('taunt11', 'assets/taunts/taunt11.png') // 384px x 101px
+    this.load.image('taunt12', 'assets/taunts/taunt12.png') // 384px x 101px
+    this.load.image('taunt13', 'assets/taunts/taunt13.png') // 384px x 101px
+    this.load.image('taunt14', 'assets/taunts/taunt14.png') // 384px x 101px
+    this.load.image('taunt15', 'assets/taunts/taunt15.png') // 384px x 101px
+    this.load.image('taunt16', 'assets/taunts/taunt16.png') // 384px x 101px
   }
 
   create() {
