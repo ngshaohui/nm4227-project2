@@ -131,10 +131,18 @@ class Scene1 extends Phaser.Scene {
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
     this.load.image('goal', 'assets/aplus.png') // 32px x 32px
 
-    this.load.audio('audio_death', 'assets/audio/death_b.mp3')
+    this.load.audio('audio_death_spike_tile', 'assets/audio/winning.mp3')
+    this.load.audio(
+      'audio_death_spike_bottom_tile',
+      'assets/audio/death_spike_bottom.mp3',
+    )
+    this.load.audio(
+      'audio_death_spike_right_tile',
+      'assets/audio/death_spike_right.mp3',
+    )
     this.load.audio('audio_jump', 'assets/audio/jump.mp3')
     this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
-    this.load.audio('audio_walk', 'assets/audio/walk.mp3')
+    this.load.audio('audio_walk', 'assets/audio/reg_footstep.mp3')
 
     this.load.image('tut_taunt1', 'assets/taunts/tut_taunt1.png') // 384px x 101px
     this.load.image('tut_taunt2', 'assets/taunts/tut_taunt2.png') // 384px x 101px
@@ -222,7 +230,13 @@ class Scene1 extends Phaser.Scene {
     })
 
     // audio
-    this.deathSound = this.sound.add('audio_death')
+    this.deathSoundSpikeTile = this.sound.add('audio_death_spike_tile')
+    this.deathSoundSpikeBottomTile = this.sound.add(
+      'audio_death_spike_bottom_tile',
+    )
+    this.deathSoundSpikeRightTile = this.sound.add(
+      'audio_death_spike_right_tile',
+    )
     this.jumpSound = this.sound.add('audio_jump')
     this.respawnSound = this.sound.add('audio_respawn')
     this.walkSound = this.sound.add('audio_walk')
@@ -279,7 +293,17 @@ class Scene1 extends Phaser.Scene {
     this.gameOver = true
     this.player.setVelocityX(0)
     this.player.setVelocityY(0)
-    this.deathSound.play()
+    switch (gameObject.texture.key) {
+      case 'spike_tile':
+        this.deathSoundSpikeTile.play()
+        break
+      case 'spike_right_tile':
+        this.deathSoundSpikeBottomTile.play()
+        break
+      case 'spike_down_tile':
+        this.deathSoundSpikeRightTile.play()
+        break
+    }
     this.showMotivationalText(POSITIVE_MESSAGES)
     setTimeout(() => {
       this.gameOver = false
