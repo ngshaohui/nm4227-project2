@@ -4,8 +4,9 @@
   "description": "40% of our grade is at stake here",
   "main": "index.js",
   "scripts": {
-    "run:python3": "python3 -m http.server 8080",
-    "run:python2": "python -m SimpleHTTPServer 8080"
+    "start": "python -m http.server 8080",
+    "start:python3": "python3 -m http.server 8080",
+    "start:python2": "python -m SimpleHTTPServer 8080"
   },
   "keywords": [
     "nm4227",
