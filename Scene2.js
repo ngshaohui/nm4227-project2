@@ -138,10 +138,18 @@ class Scene2 extends Phaser.Scene {
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
     this.load.image('goal', 'assets/aplus.png') // 32px x 32px
 
-    this.load.audio('audio_death', 'assets/audio/death_b.mp3')
+    this.load.audio('audio_death_spike_tile', 'assets/audio/winning.mp3')
+    this.load.audio(
+      'audio_death_spike_bottom_tile',
+      'assets/audio/death_spike_bottom.mp3',
+    )
+    this.load.audio(
+      'audio_death_spike_right_tile',
+      'assets/audio/death_spike_right.mp3',
+    )
     this.load.audio('audio_jump', 'assets/audio/jump.mp3')
     this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
-    this.load.audio('audio_walk', 'assets/audio/walk.mp3')
+    this.load.audio('audio_walk', 'assets/audio/reg_footstep.mp3')
 
     this.load.image('1st_taunt', 'assets/taunts/1st_taunt.png') // 384px x 101px
     this.load.image('2nd_taunt', 'assets/taunts/2nd_taunt.png') // 384px x 101px
@@ -164,7 +172,8 @@ class Scene2 extends Phaser.Scene {
     this.load.image('taunt13', 'assets/taunts/taunt13.png') // 384px x 101px
     this.load.image('taunt14', 'assets/taunts/taunt14.png') // 384px x 101px
     this.load.image('taunt15', 'assets/taunts/taunt15.png') // 384px x 101px
-    this.load.image('taunt16', 'assets/taunts/taunt16.png') // 384px x 101px
+    // const test = this.load.image('taunt16', 'assets/taunts/taunt16.png') // 384px x 101px
+    // console.log(test)
   }
 
   create() {
@@ -293,7 +302,13 @@ class Scene2 extends Phaser.Scene {
     })
 
     // audio
-    this.deathSound = this.sound.add('audio_death')
+    this.deathSoundSpikeTile = this.sound.add('audio_death_spike_tile')
+    this.deathSoundSpikeBottomTile = this.sound.add(
+      'audio_death_spike_bottom_tile',
+    )
+    this.deathSoundSpikeRightTile = this.sound.add(
+      'audio_death_spike_right_tile',
+    )
     this.jumpSound = this.sound.add('audio_jump')
     this.respawnSound = this.sound.add('audio_respawn')
     this.walkSound = this.sound.add('audio_walk')
@@ -354,10 +369,26 @@ class Scene2 extends Phaser.Scene {
     setTimeout(() => {
       gameObject.setVisible(false)
     }, 500)
+    setTimeout(() => {
+      gameObject.setVisible(true)
+    }, 1000)
+    setTimeout(() => {
+      gameObject.setVisible(false)
+    }, 1500)
     this.gameOver = true
     this.player.setVelocityX(0)
     this.player.setVelocityY(0)
-    this.deathSound.play()
+    switch (gameObject.texture.key) {
+      case 'spike_tile':
+        this.deathSoundSpikeTile.play()
+        break
+      case 'spike_right_tile':
+        this.deathSoundSpikeBottomTile.play()
+        break
+      case 'spike_down_tile':
+        this.deathSoundSpikeRightTile.play()
+        break
+    }
     this.updateDeathCounter()
     this.showMotivationalText(TAUNTS)
     setTimeout(() => {
@@ -416,6 +447,11 @@ class Scene2 extends Phaser.Scene {
   }
 
   showVictoryText() {
+    // const victoryText = this.add.image(
+    //   this.cameras.main.width / 2,
+    //   this.cameras.main.height / 2,
+    //   'intro_screen',
+    // )
     this.add
       .text(
         (SCREEN_WIDTH * TILE_SIZE) / 2,
