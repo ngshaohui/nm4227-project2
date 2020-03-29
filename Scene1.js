@@ -2,6 +2,7 @@ import {
   POSITIVE_MESSAGES,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
+  throttle,
   TILE_SIZE,
   TIMEOUT_DURATION,
 } from './utils.js'
@@ -240,6 +241,9 @@ class Scene1 extends Phaser.Scene {
     this.jumpSound = this.sound.add('audio_jump')
     this.respawnSound = this.sound.add('audio_respawn')
     this.walkSound = this.sound.add('audio_walk')
+    this.throttledWalkSound = throttle(function() {
+      this.walkSound.play()
+    }, 200)
 
     this.player.setCollideWorldBounds(true)
     this.physics.add.collider(this.player, platforms)
@@ -258,13 +262,13 @@ class Scene1 extends Phaser.Scene {
       this.player.setVelocityX(-120)
       if (this.player.body.touching.down) {
         this.player.anims.play('walk_left', true)
-        this.walkSound.play()
+        this.throttledWalkSound()
       }
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(120)
       if (this.player.body.touching.down) {
         this.player.anims.play('walk_right', true)
-        this.walkSound.play()
+        this.throttledWalkSound()
       }
     } else {
       this.player.setVelocityX(0)

@@ -2,6 +2,7 @@ import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
   TAUNTS,
+  throttle,
   TILE_SIZE,
   TIMEOUT_DURATION,
 } from './utils.js'
@@ -150,6 +151,9 @@ class Scene2 extends Phaser.Scene {
     this.load.audio('audio_jump', 'assets/audio/jump.mp3')
     this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
     this.load.audio('audio_walk', 'assets/audio/reg_footstep.mp3')
+    this.throttledWalkSound = throttle(function() {
+      this.walkSound.play()
+    }, 200)
 
     this.load.image('1st_taunt', 'assets/taunts/1st_taunt.png') // 384px x 101px
     this.load.image('2nd_taunt', 'assets/taunts/2nd_taunt.png') // 384px x 101px
@@ -330,13 +334,13 @@ class Scene2 extends Phaser.Scene {
       this.player.setVelocityX(-120)
       if (this.player.body.touching.down) {
         this.player.anims.play('walk_left', true)
-        this.walkSound.play()
+        this.throttledWalkSound()
       }
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(120)
       if (this.player.body.touching.down) {
         this.player.anims.play('walk_right', true)
-        this.walkSound.play()
+        this.throttledWalkSound()
       }
     } else {
       this.player.setVelocityX(0)

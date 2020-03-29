@@ -14,11 +14,25 @@ const TAUNTS = [
   '"Rules in computer games are hidden and you can just \njump straight into it unlike a board game" - Alex',
 ]
 
+function throttle(func, limit) {
+  let inThrottle
+  return function() {
+    const args = arguments
+    const context = this
+    if (!inThrottle) {
+      func.apply(context, args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), limit)
+    }
+  }
+}
+
 export {
   POSITIVE_MESSAGES,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
   TAUNTS,
+  throttle,
   TILE_SIZE,
   TIMEOUT_DURATION,
 }
