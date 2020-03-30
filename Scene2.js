@@ -177,6 +177,9 @@ class Scene2 extends Phaser.Scene {
     this.load.image('taunt17', 'assets/taunts/bbtaunt1.png') // 384px x 101px
     this.load.image('taunt18', 'assets/taunts/bbtaunt2.png') // 384px x 101px
     this.load.image('taunt19', 'assets/taunts/bbtaunt3.png') // 384px x 101px
+
+    // secret
+    this.load.image('thumbsup', 'assets/avatar/alexthumbsup.png')
   }
 
   create() {
@@ -457,14 +460,19 @@ class Scene2 extends Phaser.Scene {
   }
 
   showVictoryText() {
-    this.add
-      .text(
-        (SCREEN_WIDTH * TILE_SIZE) / 2,
-        (SCREEN_HEIGHT * TILE_SIZE) / 2,
-        'NM4227 Final Grade A+',
-      )
-      .setFontSize(64)
-      .setOrigin(0.5)
+    const thumbsup = this.add.image(
+      this.cameras.main.width / 2,
+      this.cameras.main.height / 2,
+      'thumbsup',
+    )
+    const scaleX = this.cameras.main.width / thumbsup.width
+    const scaleY = this.cameras.main.height / thumbsup.height
+    const scale = Math.min(scaleX, scaleY)
+    thumbsup.setScale(scale).setScrollFactor(0)
+    setTimeout(() => {
+      thumbsup.destroy()
+      this.scene.start('endGame')
+    }, TIMEOUT_DURATION)
   }
 }
 
