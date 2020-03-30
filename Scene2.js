@@ -111,6 +111,7 @@ class Scene2 extends Phaser.Scene {
     super('playGame')
     this.gameOver = false
     this.canJump = true
+    this.deathCounter = 0
   }
 
   preload() {
@@ -158,9 +159,6 @@ class Scene2 extends Phaser.Scene {
     this.load.image('1st_taunt', 'assets/taunts/1st_taunt.png') // 384px x 101px
     this.load.image('2nd_taunt', 'assets/taunts/2nd_taunt.png') // 384px x 101px
     this.load.image('3rd_taunt', 'assets/taunts/3rd_taunt.png') // 384px x 101px
-    this.load.image('bbtaunt1', 'assets/taunts/bbtaunt1.png') // 384px x 101px
-    this.load.image('bbtaunt2', 'assets/taunts/bbtaunt2.png') // 384px x 101px
-    this.load.image('bbtaunt3', 'assets/taunts/bbtaunt3.png') // 384px x 101px
     this.load.image('taunt1', 'assets/taunts/taunt1.png') // 384px x 101px
     this.load.image('taunt2', 'assets/taunts/taunt2.png') // 384px x 101px
     this.load.image('taunt3', 'assets/taunts/taunt3.png') // 384px x 101px
@@ -177,10 +175,12 @@ class Scene2 extends Phaser.Scene {
     this.load.image('taunt14', 'assets/taunts/taunt14.png') // 384px x 101px
     this.load.image('taunt15', 'assets/taunts/taunt15.png') // 384px x 101px
     this.load.image('taunt16', 'assets/taunts/taunt16.png') // 384px x 101px
+    this.load.image('taunt17', 'assets/taunts/bbtaunt1.png') // 384px x 101px
+    this.load.image('taunt18', 'assets/taunts/bbtaunt2.png') // 384px x 101px
+    this.load.image('taunt19', 'assets/taunts/bbtaunt3.png') // 384px x 101px
   }
 
   create() {
-    this.deathCounter = 0
     const date = new Date()
     this.timeStart = date.getTime()
 
@@ -392,8 +392,8 @@ class Scene2 extends Phaser.Scene {
         this.deathSoundSpikeRightTile.play()
         break
     }
-    this.updateDeathCounter()
-    this.showMotivationalText(TAUNTS)
+    this.updateDeathCounter(this.deathCounter)
+    this.showMotivationalText(this.deathCounter)
     setTimeout(() => {
       this.gameOver = false
       this.respawnSound.play()
@@ -407,8 +407,8 @@ class Scene2 extends Phaser.Scene {
     this.gameOver = true
   }
 
-  updateDeathCounter() {
-    this.deathCounter = this.deathCounter + 1
+  updateDeathCounter(deathCount) {
+    this.deathCounter = deathCount + 1
     this.deathCounterText.setText(this.getDeathCounterText(this.deathCounter))
   }
 
@@ -431,21 +431,29 @@ class Scene2 extends Phaser.Scene {
     )}:${padWithZero(timeInSeconds)}`
   }
 
-  showMotivationalText(taunts) {
+  showMotivationalText(deathCount) {
     // select random taunt
-    var taunt = taunts[Math.floor(Math.random() * taunts.length)]
-    // add text
-    const text = this.add
-      .text(
-        (SCREEN_WIDTH * TILE_SIZE) / 2,
-        (SCREEN_HEIGHT * TILE_SIZE) / 2,
-        taunt,
-      )
-      .setFontSize(24)
-      .setOrigin(0.5)
-    // remove text after 1s
+    const rng = Math.floor(Math.random() * 19) + 1
+    const randomTaunt = 'taunt' + rng
+    let useTaunt = randomTaunt
+    switch (deathCount) {
+      case 1:
+        useTaunt = '1st_taunt'
+        break
+      case 2:
+        useTaunt = '2nd_taunt'
+        break
+      case 3:
+        useTaunt = '3rd_taunt'
+        break
+    }
+    const taunt_screen = this.add.image(
+      this.cameras.main.width / 2,
+      this.cameras.main.height / 2,
+      useTaunt,
+    )
     setTimeout(() => {
-      text.destroy()
+      taunt_screen.destroy()
     }, TIMEOUT_DURATION)
   }
 
