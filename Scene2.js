@@ -176,8 +176,7 @@ class Scene2 extends Phaser.Scene {
     this.load.image('taunt13', 'assets/taunts/taunt13.png') // 384px x 101px
     this.load.image('taunt14', 'assets/taunts/taunt14.png') // 384px x 101px
     this.load.image('taunt15', 'assets/taunts/taunt15.png') // 384px x 101px
-    // const test = this.load.image('taunt16', 'assets/taunts/taunt16.png') // 384px x 101px
-    // console.log(test)
+    this.load.image('taunt16', 'assets/taunts/taunt16.png') // 384px x 101px
   }
 
   create() {
@@ -366,7 +365,7 @@ class Scene2 extends Phaser.Scene {
 
   hitSpikes(pointer, gameObject) {
     if (this.gameOver) {
-      // debounce collision
+      // throttle collision
       return
     }
     gameObject.setVisible(true)
@@ -451,11 +450,6 @@ class Scene2 extends Phaser.Scene {
   }
 
   showVictoryText() {
-    // const victoryText = this.add.image(
-    //   this.cameras.main.width / 2,
-    //   this.cameras.main.height / 2,
-    //   'intro_screen',
-    // )
     this.add
       .text(
         (SCREEN_WIDTH * TILE_SIZE) / 2,
