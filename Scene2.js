@@ -1,7 +1,6 @@
 import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-  TAUNTS,
   throttle,
   TILE_SIZE,
   TIMEOUT_DURATION,

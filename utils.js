@@ -8,12 +8,6 @@ const POSITIVE_MESSAGES = [
   'If Alex can do it, so can you!',
 ]
 
-const TAUNTS = [
-  'Can Alex do this in front of a class of 40 students?',
-  'Alex is that you?',
-  '"Rules in computer games are hidden and you can just \njump straight into it unlike a board game" - Alex',
-]
-
 function throttle(func, limit) {
   let inThrottle
   return function() {
@@ -31,7 +25,6 @@ export {
   POSITIVE_MESSAGES,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-  TAUNTS,
   throttle,
   TILE_SIZE,
   TIMEOUT_DURATION,
