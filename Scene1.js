@@ -132,6 +132,7 @@ class Scene1 extends Phaser.Scene {
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
     this.load.image('goal', 'assets/aplus.png') // 32px x 32px
 
+    this.load.audio('audio_winning', 'assets/audio/winning.mp3')
     this.load.audio('audio_death_spike_tile', 'assets/audio/death_spike.mp3')
     this.load.audio(
       'audio_death_spike_bottom_tile',
@@ -231,6 +232,7 @@ class Scene1 extends Phaser.Scene {
     })
 
     // audio
+    this.winningSound = this.sound.add('audio_winning')
     this.deathSoundSpikeTile = this.sound.add('audio_death_spike_tile')
     this.deathSoundSpikeBottomTile = this.sound.add(
       'audio_death_spike_bottom_tile',
@@ -318,6 +320,7 @@ class Scene1 extends Phaser.Scene {
   }
 
   reachGoal() {
+    this.winningSound.play()
     this.showVictoryText()
     this.gameOver = true
   }
