@@ -7,7 +7,56 @@ import {
   TIMEOUT_DURATION,
 } from './utils.js'
 
-const PLATFORM_TILES = [
+const GRASS_TILES = [
+  [1, 12],
+  [2, 12],
+  [3, 12],
+  [4, 12],
+  [5, 12],
+  [6, 12],
+  [7, 12],
+  [10, 12],
+  [11, 12],
+  [12, 12],
+  [13, 12],
+  [14, 12],
+  [15, 12],
+  [16, 12],
+  [17, 12],
+  [18, 12],
+  [19, 12],
+  [20, 12],
+  [21, 12],
+  [22, 12],
+  [23, 12],
+  // step 1
+  [24, 11],
+  [25, 10],
+  // step 2
+  [21, 9],
+  [22, 9],
+  [20, 8],
+  // step 3
+  [15, 7],
+  [16, 7],
+  [17, 7],
+  [18, 7],
+  // goal
+  [12, 7],
+  [13, 7],
+  [11, 6],
+  [10, 5],
+  // hanging
+  [12, 2],
+  [13, 2],
+  [14, 2],
+  [15, 2],
+]
+
+const DIRT_TILES = [
+  [24, 12],
+  [25, 12],
+  [26, 12],
   [1, 13],
   [2, 13],
   [3, 13],
@@ -34,61 +83,18 @@ const PLATFORM_TILES = [
   [24, 13],
   [25, 13],
   [26, 13],
-  [1, 12],
-  [2, 12],
-  [3, 12],
-  [4, 12],
-  [5, 12],
-  [6, 12],
-  [7, 12],
-  [10, 12],
-  [11, 12],
-  [12, 12],
-  [13, 12],
-  [14, 12],
-  [15, 12],
-  [16, 12],
-  [17, 12],
-  [18, 12],
-  [19, 12],
-  [20, 12],
-  [21, 12],
-  [22, 12],
-  [23, 12],
-  [24, 12],
-  [25, 12],
-  [26, 12],
   // step 1
-  [24, 11],
   [25, 11],
-  [25, 10],
-  // step 2
-  [21, 9],
-  [22, 9],
-  [20, 8],
-  // step 3
-  [15, 7],
-  [16, 7],
-  [17, 7],
-  [18, 7],
   // goal
   [10, 7],
   [11, 7],
-  [12, 7],
-  [13, 7],
   [10, 6],
-  [11, 6],
-  [10, 5],
-  // hanging
-  [12, 2],
-  [13, 2],
-  [14, 2],
-  [15, 2],
 ]
 
 const SPIKES_TILES = [
   [8, 12],
   [9, 12],
+  [26, 11],
 ]
 
 const DOWN_FACING_SPIKE_TILES = [
@@ -127,7 +133,8 @@ class Scene1 extends Phaser.Scene {
     this.load.image('avatar_right_walk_5', 'assets/avatar/right-step-5.png')
     this.load.image('avatar_right_walk_6', 'assets/avatar/right-step-6.png')
 
-    this.load.image('platform_tile', 'assets/platform_tile.png') // 32px x 32px
+    this.load.image('dirt_tile', 'assets/dirt.png') // 32px x 32px
+    this.load.image('grass_tile', 'assets/grass.png') // 32px x 32px
     this.load.image('spike_down_tile', 'assets/spike_down_tile.png') // 12px x 32px
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
     this.load.image('goal', 'assets/aplus.png') // 32px x 32px
@@ -169,10 +176,15 @@ class Scene1 extends Phaser.Scene {
 
     // create platforms
     const platforms = this.physics.add.staticGroup()
-    const platformsCreated = PLATFORM_TILES.map(coordinate => {
+    const platformsCreated = DIRT_TILES.map(coordinate => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
-      return platforms.create(x, y, 'platform_tile')
+      return platforms.create(x, y, 'dirt_tile')
+    })
+    GRASS_TILES.map(coordinate => {
+      const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
+      const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
+      return platforms.create(x, y, 'grass_tile')
     })
 
     // create spikes
