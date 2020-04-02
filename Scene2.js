@@ -385,13 +385,16 @@ class Scene2 extends Phaser.Scene {
 
     // broom closet
     if (Phaser.Geom.Rectangle.Overlaps(this.player.getBounds(), this.zone)) {
-      this.inCloset = true
-      console.log('COLLIDE')
+      if (!this.inCloset) {
+        // debounce
+        this.inCloset = true
+        console.log('enter closet')
+      }
     } else {
       // player has left
       if (this.inCloset) {
         this.inCloset = false // reset boolean
-        console.log('PLAYER LEFT')
+        console.log('exit closet')
       }
     }
   }
