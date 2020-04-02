@@ -106,12 +106,20 @@ const DOWN_FACING_SPIKE_TILES = [
 
 const GOAL = [25, 3]
 
+const BROOM_CLOSET_COORDINATES = {
+  x0: 13,
+  y0: 6,
+  x1: 15,
+  y1: 11,
+}
+
 class Scene2 extends Phaser.Scene {
   constructor() {
     super('playGame')
     this.gameOver = false
     this.canJump = true
     this.deathCounter = 0
+    this.inCloset = false
   }
 
   preload() {
@@ -326,6 +334,14 @@ class Scene2 extends Phaser.Scene {
     this.physics.add.collider(this.player, spikes, this.hitSpikes, null, this)
     this.physics.add.collider(this.player, goal, this.reachGoal, null, this)
 
+    // broom closet
+    this.zone = new Phaser.Geom.Rectangle(
+      getScreenCoordinate(BROOM_CLOSET_COORDINATES.x0, TILE_SIZE),
+      getScreenCoordinate(BROOM_CLOSET_COORDINATES.y0, TILE_SIZE),
+      getScreenCoordinate(BROOM_CLOSET_COORDINATES.x1, TILE_SIZE),
+      getScreenCoordinate(BROOM_CLOSET_COORDINATES.y1, TILE_SIZE),
+    )
+
     this.cursors = this.input.keyboard.createCursorKeys()
   }
 
@@ -366,6 +382,18 @@ class Scene2 extends Phaser.Scene {
 
     // update timer
     this.timerText.setText(this.getTimerText())
+
+    // broom closet
+    if (Phaser.Geom.Rectangle.Overlaps(this.player.getBounds(), this.zone)) {
+      this.inCloset = true
+      console.log('COLLIDE')
+    } else {
+      // player has left
+      if (this.inCloset) {
+        this.inCloset = false // reset boolean
+        console.log('PLAYER LEFT')
+      }
+    }
   }
 
   hitSpikes(pointer, gameObject) {
