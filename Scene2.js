@@ -329,7 +329,7 @@ class Scene2 extends Phaser.Scene {
     )
     this.jumpSound = this.sound.add('audio_jump')
     this.respawnSound = this.sound.add('audio_respawn')
-    this.walkSound = this.sound.add('audio_walk')
+    this.walkSound = this.sound.add('audio_walk', { volume: 0.1 })
     this.closetOpenSound = this.sound.add('audio_closet_open')
     this.closetCloseSound = this.sound.add('audio_closet_close')
 
