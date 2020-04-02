@@ -164,6 +164,8 @@ class Scene2 extends Phaser.Scene {
     this.throttledWalkSound = throttle(function() {
       this.walkSound.play()
     }, 200)
+    this.load.audio('audio_closet_open', 'assets/audio/BC_door_open.mp3')
+    this.load.audio('audio_closet_close', 'assets/audio/BC_door_close.mp3')
 
     this.load.image('1st_taunt', 'assets/taunts/1st_taunt.png') // 384px x 101px
     this.load.image('2nd_taunt', 'assets/taunts/2nd_taunt.png') // 384px x 101px
@@ -328,6 +330,8 @@ class Scene2 extends Phaser.Scene {
     this.jumpSound = this.sound.add('audio_jump')
     this.respawnSound = this.sound.add('audio_respawn')
     this.walkSound = this.sound.add('audio_walk')
+    this.closetOpenSound = this.sound.add('audio_closet_open')
+    this.closetCloseSound = this.sound.add('audio_closet_close')
 
     this.player.setCollideWorldBounds(true)
     this.physics.add.collider(this.player, platforms)
@@ -335,7 +339,7 @@ class Scene2 extends Phaser.Scene {
     this.physics.add.collider(this.player, goal, this.reachGoal, null, this)
 
     // broom closet
-    this.zone = new Phaser.Geom.Rectangle(
+    this.closet = new Phaser.Geom.Rectangle(
       getScreenCoordinate(BROOM_CLOSET_COORDINATES.x0, TILE_SIZE),
       getScreenCoordinate(BROOM_CLOSET_COORDINATES.y0, TILE_SIZE),
       getScreenCoordinate(BROOM_CLOSET_COORDINATES.x1, TILE_SIZE),
@@ -384,17 +388,17 @@ class Scene2 extends Phaser.Scene {
     this.timerText.setText(this.getTimerText())
 
     // broom closet
-    if (Phaser.Geom.Rectangle.Overlaps(this.player.getBounds(), this.zone)) {
+    if (Phaser.Geom.Rectangle.Overlaps(this.player.getBounds(), this.closet)) {
       if (!this.inCloset) {
         // debounce
         this.inCloset = true
-        console.log('enter closet')
+        this.closetOpenSound.play()
       }
     } else {
       // player has left
       if (this.inCloset) {
         this.inCloset = false // reset boolean
-        console.log('exit closet')
+        this.closetCloseSound.play()
       }
     }
   }
