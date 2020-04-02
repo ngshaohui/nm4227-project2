@@ -393,13 +393,30 @@ class Scene2 extends Phaser.Scene {
         // debounce
         this.inCloset = true
         this.closetOpenSound.play()
+        this.enterClosetTime = new Date()
       }
+      const date = new Date()
+      const timeNow = date.getTime()
+      const timeDiffInSeconds = Math.round(
+        (timeNow - this.enterClosetTime) / 1000,
+      )
+      this.broomClosetText(timeDiffInSeconds)
     } else {
       // player has left
       if (this.inCloset) {
         this.inCloset = false // reset boolean
         this.closetCloseSound.play()
       }
+    }
+  }
+
+  broomClosetText(time) {
+    if (time >= 5 && time < 10) {
+      // You stepped into a broom closet
+    } else if (time >= 10 && time < 15) {
+      // Why are you still here? There’s nothing to see here
+    } else {
+      // OH, DID U GET THE BROOM CLOSET ENDING? THE BROOM CLOSET ENDING WAS MY FAVRITE!1 xD' ... I hope your friends find this concerning
     }
   }
 
