@@ -27,6 +27,9 @@ class Scene4 extends Phaser.Scene {
   }
 
   create() {
+    const goVerificationScreen = () => {
+      this.scene.start('verification')
+    }
     this.title = this.add
       .text(
         (SCREEN_WIDTH * TILE_SIZE) / 2,
@@ -140,7 +143,7 @@ class Scene4 extends Phaser.Scene {
           }, 3000)
           setTimeout(() => {
             // go to next level
-            this.scene.start('verification')
+            goVerificationScreen()
           }, 4000)
         } else if (cursor.x === 8 && cursor.y === 2 && name.length > 0) {
           //  Rub
@@ -217,7 +220,7 @@ class Scene4 extends Phaser.Scene {
           }, 3000)
           setTimeout(() => {
             // go to next level
-            this.scene.start('verification')
+            goVerificationScreen()
           }, 4000)
         } else if (name.length < MAX_LEN) {
           //  Add
