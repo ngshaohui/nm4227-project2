@@ -22,6 +22,12 @@ class Scene3 extends Phaser.Scene {
     const scaleY = this.cameras.main.height / intro_screen.height
     const scale = Math.min(scaleX, scaleY)
     intro_screen.setScale(scale).setScrollFactor(0)
+    setTimeout(() => {
+      this.scene.start('enterName', {
+        deathCounter: this.deathCounter,
+        timeTaken: this.timeTaken,
+      })
+    }, 4000)
   }
 }
 
