@@ -115,8 +115,6 @@ const GOAL = [10, 4]
 class Scene1 extends Phaser.Scene {
   constructor() {
     super('learnGame')
-    this.gameOver = false
-    this.canJump = true
   }
 
   preload() {
@@ -158,6 +156,8 @@ class Scene1 extends Phaser.Scene {
   }
 
   create() {
+    this.gameOver = false
+    this.canJump = true
     function getScreenCoordinate(tileNumber, tileSize) {
       const origin = tileSize / 2
       // -1 due to 1 based indexing

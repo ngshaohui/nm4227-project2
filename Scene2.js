@@ -110,10 +110,6 @@ const BROOM_CLOSET_COORDINATES = {
 class Scene2 extends Phaser.Scene {
   constructor() {
     super('playGame')
-    this.gameOver = false
-    this.canJump = true
-    this.deathCounter = 0
-    this.inCloset = false
   }
 
   preload() {
@@ -189,6 +185,10 @@ class Scene2 extends Phaser.Scene {
   }
 
   create() {
+    this.gameOver = false
+    this.canJump = true
+    this.deathCounter = 0
+    this.inCloset = false
     const date = new Date()
     this.timeStart = date.getTime()
 

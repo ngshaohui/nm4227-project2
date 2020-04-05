@@ -6,8 +6,6 @@ class Scene4 extends Phaser.Scene {
   // https://phaser.io/examples/v3/view/input/keyboard/enter-name
   constructor() {
     super('enterName')
-    this.submitted = false
-    this.startTime = new Date()
   }
 
   init(data) {
@@ -27,6 +25,8 @@ class Scene4 extends Phaser.Scene {
   }
 
   create() {
+    this.submitted = false
+    this.startTime = new Date()
     const goVerificationScreen = () => {
       this.scene.start('verification')
     }
