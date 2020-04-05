@@ -140,7 +140,7 @@ class Scene4 extends Phaser.Scene {
           }, 3000)
           setTimeout(() => {
             // go to next level
-            console.log('GO NEXT')
+            this.scene.start('verification')
           }, 4000)
         } else if (cursor.x === 8 && cursor.y === 2 && name.length > 0) {
           //  Rub
@@ -217,7 +217,7 @@ class Scene4 extends Phaser.Scene {
           }, 3000)
           setTimeout(() => {
             // go to next level
-            console.log('GO NEXT')
+            this.scene.start('verification')
           }, 4000)
         } else if (name.length < MAX_LEN) {
           //  Add
@@ -233,9 +233,7 @@ class Scene4 extends Phaser.Scene {
   update() {
     const date = new Date()
     const timeNow = date.getTime()
-    const timeDiffInSeconds = Math.round(
-      (timeNow - this.startTime) / 1000,
-    )
+    const timeDiffInSeconds = Math.round((timeNow - this.startTime) / 1000)
     if (timeDiffInSeconds % 2 == 0) {
       this.title.visible = false
     } else {
