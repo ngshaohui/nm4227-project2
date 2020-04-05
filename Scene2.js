@@ -157,28 +157,19 @@ class Scene2 extends Phaser.Scene {
     this.load.audio('audio_closet_open', 'assets/audio/BC_door_open.mp3')
     this.load.audio('audio_closet_close', 'assets/audio/BC_door_close.mp3')
 
-    this.load.image('1st_taunt', 'assets/taunts/1st_taunt.png') // 384px x 101px
-    this.load.image('2nd_taunt', 'assets/taunts/2nd_taunt.png') // 384px x 101px
-    this.load.image('3rd_taunt', 'assets/taunts/3rd_taunt.png') // 384px x 101px
-    this.load.image('taunt1', 'assets/taunts/taunt1.png') // 384px x 101px
-    this.load.image('taunt2', 'assets/taunts/taunt2.png') // 384px x 101px
-    this.load.image('taunt3', 'assets/taunts/taunt3.png') // 384px x 101px
-    this.load.image('taunt4', 'assets/taunts/taunt4.png') // 384px x 101px
-    this.load.image('taunt5', 'assets/taunts/taunt5.png') // 384px x 101px
-    this.load.image('taunt6', 'assets/taunts/taunt6.png') // 384px x 101px
-    this.load.image('taunt7', 'assets/taunts/taunt7.png') // 384px x 101px
-    this.load.image('taunt8', 'assets/taunts/taunt8.png') // 384px x 101px
-    this.load.image('taunt9', 'assets/taunts/taunt9.png') // 384px x 101px
-    this.load.image('taunt10', 'assets/taunts/taunt10.png') // 384px x 101px
-    this.load.image('taunt11', 'assets/taunts/taunt11.png') // 384px x 101px
-    this.load.image('taunt12', 'assets/taunts/taunt12.png') // 384px x 101px
-    this.load.image('taunt13', 'assets/taunts/taunt13.png') // 384px x 101px
-    this.load.image('taunt14', 'assets/taunts/taunt14.png') // 384px x 101px
-    this.load.image('taunt15', 'assets/taunts/taunt15.png') // 384px x 101px
-    this.load.image('taunt16', 'assets/taunts/taunt16.png') // 384px x 101px
-    this.load.image('taunt17', 'assets/taunts/bbtaunt1.png') // 384px x 101px
-    this.load.image('taunt18', 'assets/taunts/bbtaunt2.png') // 384px x 101px
-    this.load.image('taunt19', 'assets/taunts/bbtaunt3.png') // 384px x 101px
+    this.load.audio('f0', 'assets/audio/taunts/f0.mp3')
+    this.load.audio('f1', 'assets/audio/taunts/f1.mp3')
+    this.load.audio('f2', 'assets/audio/taunts/f2.mp3')
+    this.load.audio('a0', 'assets/audio/taunts/a0.mp3')
+    this.load.audio('a1', 'assets/audio/taunts/a1.mp3')
+    this.load.audio('a2', 'assets/audio/taunts/a2.mp3')
+    this.load.audio('a3', 'assets/audio/taunts/a3.mp3')
+    this.load.audio('a4', 'assets/audio/taunts/a4.mp3')
+    this.load.audio('a5', 'assets/audio/taunts/a5.mp3')
+    this.load.audio('a6', 'assets/audio/taunts/a6.mp3')
+    this.load.audio('a7', 'assets/audio/taunts/a7.mp3')
+    this.load.audio('a8', 'assets/audio/taunts/a8.mp3')
+    this.load.audio('a9', 'assets/audio/taunts/a9.mp3')
 
     // secret
     this.load.image('thumbsup', 'assets/avatar/alexthumbsup.png')
@@ -314,18 +305,31 @@ class Scene2 extends Phaser.Scene {
 
     // audio
     this.winningSound = this.sound.add('audio_winning')
-    this.deathSoundSpikeTile = this.sound.add('audio_death_spike_tile')
+    this.deathSoundSpikeTile = this.sound.add('audio_death_spike_tile', {
+      volume: 0.2,
+    })
     this.deathSoundSpikeBottomTile = this.sound.add(
       'audio_death_spike_bottom_tile',
+      { volume: 0.2 },
     )
     this.deathSoundSpikeRightTile = this.sound.add(
       'audio_death_spike_right_tile',
+      { volume: 0.2 },
     )
     this.jumpSound = this.sound.add('audio_jump')
-    this.respawnSound = this.sound.add('audio_respawn')
+    this.respawnSound = this.sound.add('audio_respawn', { volume: 0.4 })
     this.walkSound = this.sound.add('audio_walk', { volume: 0.1 })
     this.closetOpenSound = this.sound.add('audio_closet_open')
     this.closetCloseSound = this.sound.add('audio_closet_close')
+
+    // taunts
+    this.f0 = this.sound.add('f0')
+    this.f1 = this.sound.add('f1')
+    this.f2 = this.sound.add('f2')
+    this.taunts = []
+    for (let i = 0; i < 10; i++) {
+      this.taunts.push(this.sound.add('a' + i))
+    }
 
     this.player.setCollideWorldBounds(true)
     this.physics.add.collider(this.player, platforms)
@@ -491,28 +495,20 @@ class Scene2 extends Phaser.Scene {
 
   showMotivationalText(deathCount) {
     // select random taunt
-    const rng = Math.floor(Math.random() * 19) + 1
-    const randomTaunt = 'taunt' + rng
-    let useTaunt = randomTaunt
+    const rng = Math.floor(Math.random() * this.taunts.length)
     switch (deathCount) {
       case 1:
-        useTaunt = '1st_taunt'
+        this.f0.play()
         break
       case 2:
-        useTaunt = '2nd_taunt'
+        this.f1.play()
         break
       case 3:
-        useTaunt = '3rd_taunt'
+        this.f2.play()
         break
+      default:
+        this.taunts[rng].play()
     }
-    const taunt_screen = this.add.image(
-      this.cameras.main.width / 2,
-      this.cameras.main.height / 2,
-      useTaunt,
-    )
-    setTimeout(() => {
-      taunt_screen.destroy()
-    }, TIMEOUT_DURATION)
   }
 
   showVictoryText() {

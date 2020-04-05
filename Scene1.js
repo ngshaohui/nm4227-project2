@@ -1,5 +1,4 @@
 import {
-  POSITIVE_MESSAGES,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
   throttle,
@@ -151,8 +150,9 @@ class Scene1 extends Phaser.Scene {
     this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
     this.load.audio('audio_walk', 'assets/audio/reg_footstep.mp3')
 
-    this.load.image('tut_taunt1', 'assets/taunts/tut_taunt1.png') // 384px x 101px
-    this.load.image('tut_taunt2', 'assets/taunts/tut_taunt2.png') // 384px x 101px
+    // encouragement
+    this.load.audio('e0', 'assets/audio/encouragements/e0.mp3')
+    this.load.audio('e1', 'assets/audio/encouragements/e1.mp3')
   }
 
   create() {
@@ -176,12 +176,12 @@ class Scene1 extends Phaser.Scene {
 
     // create platforms
     const platforms = this.physics.add.staticGroup()
-    const platformsCreated = DIRT_TILES.map(coordinate => {
+    const platformsCreated = DIRT_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
       return platforms.create(x, y, 'dirt_tile')
     })
-    GRASS_TILES.map(coordinate => {
+    GRASS_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
       return platforms.create(x, y, 'grass_tile')
@@ -189,12 +189,12 @@ class Scene1 extends Phaser.Scene {
 
     // create spikes
     const spikes = this.physics.add.staticGroup()
-    const spikesCreated = SPIKES_TILES.map(coordinate => {
+    const spikesCreated = SPIKES_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getSpikeScreenYCoordinate(coordinate[1], TILE_SIZE)
       return spikes.create(x, y, 'spike_tile')
     })
-    DOWN_FACING_SPIKE_TILES.forEach(coordinate => {
+    DOWN_FACING_SPIKE_TILES.forEach((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getDownSpikeScreenYCoordinate(coordinate[1], TILE_SIZE)
       const spike = spikes.create(x, y, 'spike_down_tile')
@@ -253,11 +253,16 @@ class Scene1 extends Phaser.Scene {
       'audio_death_spike_right_tile',
     )
     this.jumpSound = this.sound.add('audio_jump')
-    this.respawnSound = this.sound.add('audio_respawn')
+    this.respawnSound = this.sound.add('audio_respawn', { volume: 0.4 })
     this.walkSound = this.sound.add('audio_walk', { volume: 0.1 })
-    this.throttledWalkSound = throttle(function() {
+    this.throttledWalkSound = throttle(function () {
       this.walkSound.play()
     }, 200)
+
+    this.encouragements = []
+    for (let i = 0; i < 2; i++) {
+      this.encouragements.push(this.sound.add('e' + i))
+    }
 
     this.player.setCollideWorldBounds(true)
     this.physics.add.collider(this.player, platforms)
@@ -322,7 +327,7 @@ class Scene1 extends Phaser.Scene {
         this.deathSoundSpikeRightTile.play()
         break
     }
-    this.showMotivationalText(POSITIVE_MESSAGES)
+    this.showMotivationalText()
     setTimeout(() => {
       this.gameOver = false
       this.respawnSound.play()
@@ -337,22 +342,10 @@ class Scene1 extends Phaser.Scene {
     this.gameOver = true
   }
 
-  showMotivationalText(taunts) {
+  showMotivationalText() {
     // select random taunt
-    var taunt = taunts[Math.floor(Math.random() * taunts.length)]
-    // add text
-    const text = this.add
-      .text(
-        (SCREEN_WIDTH * TILE_SIZE) / 2,
-        (SCREEN_HEIGHT * TILE_SIZE) / 2,
-        taunt,
-      )
-      .setFontSize(24)
-      .setOrigin(0.5)
-    // remove text after 1s
-    setTimeout(() => {
-      text.destroy()
-    }, TIMEOUT_DURATION)
+    const rng = Math.floor(Math.random() * this.encouragements.length)
+    this.encouragements[rng].play()
   }
 
   showVictoryText() {
