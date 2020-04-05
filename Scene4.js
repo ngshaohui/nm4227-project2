@@ -37,7 +37,7 @@ class Scene4 extends Phaser.Scene {
       .setOrigin(0.5)
     this.add
       .text(
-        (SCREEN_WIDTH * TILE_SIZE) / 3,
+        (SCREEN_WIDTH * TILE_SIZE) / 3 - 30,
         (SCREEN_HEIGHT * TILE_SIZE) / 4,
         'Deaths: ' + this.deathCounter,
       )
