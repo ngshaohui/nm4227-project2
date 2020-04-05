@@ -523,7 +523,7 @@ class Scene2 extends Phaser.Scene {
       thumbsup.destroy()
       this.scene.start('endGame', {
         deathCounter: this.deathCounter,
-        timeTaken: getTimerText(),
+        timeTaken: this.getTimerText(),
       })
     }, TIMEOUT_DURATION)
   }
