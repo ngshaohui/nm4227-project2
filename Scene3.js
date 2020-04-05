@@ -3,6 +3,11 @@ class Scene3 extends Phaser.Scene {
     super('endGame')
   }
 
+  init(data) {
+    this.deathCounter = data.deathCounter
+    this.timeTaken = data.timeTaken
+  }
+
   preload() {
     this.load.image('victory_screen', 'assets/victory_screen.png')
   }

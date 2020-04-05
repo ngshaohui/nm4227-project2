@@ -1,10 +1,4 @@
-import {
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-  throttle,
-  TILE_SIZE,
-  TIMEOUT_DURATION,
-} from './utils.js'
+import { throttle, TILE_SIZE, TIMEOUT_DURATION } from './utils.js'
 import { DEBUG } from './env.js'
 
 const PLATFORM_TILES = [
@@ -161,7 +155,7 @@ class Scene2 extends Phaser.Scene {
     this.load.audio('audio_jump', 'assets/audio/jump.mp3')
     this.load.audio('audio_respawn', 'assets/audio/respawn.mp3')
     this.load.audio('audio_walk', 'assets/audio/reg_footstep.mp3')
-    this.throttledWalkSound = throttle(function() {
+    this.throttledWalkSound = throttle(function () {
       this.walkSound.play()
     }, 200)
     this.load.audio('audio_closet_open', 'assets/audio/BC_door_open.mp3')
@@ -238,32 +232,32 @@ class Scene2 extends Phaser.Scene {
 
     // create platforms
     const platforms = this.physics.add.staticGroup()
-    const platformsCreated = PLATFORM_TILES.map(coordinate => {
+    const platformsCreated = PLATFORM_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
       return platforms.create(x, y, 'platform_tile')
     })
     // hide platforms
     if (!DEBUG) {
-      platformsCreated.map(platform => {
+      platformsCreated.map((platform) => {
         platform.setVisible(false)
       })
     }
 
     // create spikes
     const spikes = this.physics.add.staticGroup()
-    const spikesCreated = SPIKES_TILES.map(coordinate => {
+    const spikesCreated = SPIKES_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getSpikeScreenYCoordinate(coordinate[1], TILE_SIZE)
       return spikes.create(x, y, 'spike_tile')
     })
-    RIGHT_FACING_SPIKE_TILES.forEach(coordinate => {
+    RIGHT_FACING_SPIKE_TILES.forEach((coordinate) => {
       const x = getRightSpikeScreenXCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
       const spike = spikes.create(x, y, 'spike_right_tile')
       spikesCreated.push(spike)
     })
-    DOWN_FACING_SPIKE_TILES.forEach(coordinate => {
+    DOWN_FACING_SPIKE_TILES.forEach((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getDownSpikeScreenYCoordinate(coordinate[1], TILE_SIZE)
       const spike = spikes.create(x, y, 'spike_down_tile')
@@ -271,7 +265,7 @@ class Scene2 extends Phaser.Scene {
     })
     // hide spikes
     if (!DEBUG) {
-      spikesCreated.map(spike => {
+      spikesCreated.map((spike) => {
         spike.setVisible(false)
       })
     }
@@ -527,7 +521,10 @@ class Scene2 extends Phaser.Scene {
     thumbsup.setScale(scale).setScrollFactor(0)
     setTimeout(() => {
       thumbsup.destroy()
-      this.scene.start('endGame')
+      this.scene.start('endGame', {
+        deathCounter: this.deathCounter,
+        timeTaken: getTimerText(),
+      })
     }, TIMEOUT_DURATION)
   }
 }
