@@ -13,15 +13,15 @@ class Scene3 extends Phaser.Scene {
   }
 
   create() {
-    const intro_screen = this.add.image(
+    const victory_screen = this.add.image(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
       'victory_screen',
     )
-    const scaleX = this.cameras.main.width / intro_screen.width
-    const scaleY = this.cameras.main.height / intro_screen.height
+    const scaleX = this.cameras.main.width / victory_screen.width
+    const scaleY = this.cameras.main.height / victory_screen.height
     const scale = Math.min(scaleX, scaleY)
-    intro_screen.setScale(scale).setScrollFactor(0)
+    victory_screen.setScale(scale).setScrollFactor(0)
     setTimeout(() => {
       this.scene.start('enterName', {
         deathCounter: this.deathCounter,
