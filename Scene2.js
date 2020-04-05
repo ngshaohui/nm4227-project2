@@ -336,8 +336,14 @@ class Scene2 extends Phaser.Scene {
     this.closet = new Phaser.Geom.Rectangle(
       getScreenCoordinate(BROOM_CLOSET_COORDINATES.x0, TILE_SIZE),
       getScreenCoordinate(BROOM_CLOSET_COORDINATES.y0, TILE_SIZE),
-      getScreenCoordinate(BROOM_CLOSET_COORDINATES.x1, TILE_SIZE),
-      getScreenCoordinate(BROOM_CLOSET_COORDINATES.y1, TILE_SIZE),
+      Math.abs(
+        getScreenCoordinate(BROOM_CLOSET_COORDINATES.x1, TILE_SIZE) -
+          getScreenCoordinate(BROOM_CLOSET_COORDINATES.x0, TILE_SIZE),
+      ),
+      Math.abs(
+        getScreenCoordinate(BROOM_CLOSET_COORDINATES.y1, TILE_SIZE) -
+          getScreenCoordinate(BROOM_CLOSET_COORDINATES.y0, TILE_SIZE),
+      ),
     )
 
     this.cursors = this.input.keyboard.createCursorKeys()
