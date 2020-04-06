@@ -18,8 +18,9 @@ const config = {
       gravity: { y: 1000 },
     },
   },
+  parent: 'content',
 }
 
 window.onload = function () {
-  const game = new Phaser.Game(config)
+  new Phaser.Game(config)
 }
