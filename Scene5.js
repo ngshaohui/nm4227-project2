@@ -11,16 +11,8 @@ class Scene5 extends Phaser.Scene {
     this.add
       .text(
         (SCREEN_WIDTH * TILE_SIZE) / 2,
-        (SCREEN_HEIGHT * TILE_SIZE) / 3,
+        (SCREEN_HEIGHT * TILE_SIZE) / 2,
         'Your score has been submitted\nto Prof Alex for verification',
-      )
-      .setFontSize(40)
-      .setOrigin(0.5)
-    this.add
-      .text(
-        (SCREEN_WIDTH * TILE_SIZE) / 2,
-        ((SCREEN_HEIGHT * TILE_SIZE) / 3) * 2,
-        'It is pending entry into the\nNM4227 Speedrunners Hall of Fame',
       )
       .setFontSize(40)
       .setOrigin(0.5)
