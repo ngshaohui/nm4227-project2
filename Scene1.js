@@ -117,6 +117,8 @@ class Scene1 extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('bg', 'assets/sky.png')
+
     this.load.image('avatar_left_walk_1', 'assets/avatar/left-step-1.png')
     this.load.image('avatar_left_walk_2', 'assets/avatar/left-step-2.png')
     this.load.image('avatar_left_walk_3', 'assets/avatar/left-step-3.png')
@@ -173,6 +175,16 @@ class Scene1 extends Phaser.Scene {
       // -1 due to 1 based indexing
       return origin + (tileNumber - 1) * tileSize
     }
+
+    const bg = this.add.image(
+      this.cameras.main.width / 2,
+      this.cameras.main.height / 2,
+      'bg',
+    )
+    const scaleX = this.cameras.main.width / bg.width
+    const scaleY = this.cameras.main.height / bg.height
+    const scale = Math.min(scaleX, scaleY)
+    bg.setScale(scale).setScrollFactor(0)
 
     // create platforms
     const platforms = this.physics.add.staticGroup()
