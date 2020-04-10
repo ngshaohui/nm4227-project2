@@ -66,8 +66,8 @@ const PLATFORM_TILES = [
   [25, 12],
   [26, 11],
   // above broom closet
-  [14, 3],
-  [15, 3],
+  [14, 2],
+  [15, 2],
   // stepping stone below end
   [19, 8],
   [20, 8],
@@ -94,8 +94,8 @@ const RIGHT_FACING_SPIKE_TILES = [
 ]
 
 const DOWN_FACING_SPIKE_TILES = [
-  [14, 4],
-  [15, 4],
+  [14, 3],
+  [15, 3],
 ]
 
 const GOAL = [25, 3]
