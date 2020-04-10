@@ -1,6 +1,38 @@
 import { throttle, TILE_SIZE, TIMEOUT_DURATION } from './utils.js'
 import { DEBUG } from './env.js'
 
+const DIRT_TILES = [
+  [1, 14],
+  [2, 14],
+  [3, 14],
+  [4, 14],
+  [5, 14],
+  [6, 14],
+  [7, 14],
+  [8, 14],
+  [9, 14],
+  [10, 14],
+  [11, 14],
+  [12, 14],
+  [13, 14],
+  [14, 14],
+  [15, 14],
+  [16, 14],
+  [17, 14],
+  [18, 14],
+  [19, 14],
+  [20, 14],
+  [21, 14],
+  [22, 14],
+  [23, 14],
+  [24, 14],
+  [25, 14],
+  [26, 14],
+  [25, 13],
+  [26, 13],
+  [26, 12],
+]
+
 const PLATFORM_TILES = [
   [1, 13],
   [2, 13],
@@ -22,28 +54,10 @@ const PLATFORM_TILES = [
   [22, 13],
   [23, 13],
   [24, 13],
-  [25, 13],
-  [26, 13],
   // broom closet
-  [13, 6],
-  [14, 6],
-  [15, 6],
-  [16, 6],
-  [13, 7],
-  [16, 7],
-  [13, 8],
-  [16, 8],
-  [16, 11],
-  [13, 9],
-  [15, 9],
-  [16, 9],
-  [16, 10],
   [11, 11],
   [12, 11],
   [13, 11],
-  [14, 11],
-  [15, 11],
-  [16, 11],
   // stepping stone
   [11, 7],
   // left portion
@@ -77,6 +91,25 @@ const PLATFORM_TILES = [
   [22, 4],
   [24, 4],
   [25, 4],
+]
+
+const CLOSET_TILES = [
+  [13, 6],
+  [14, 6],
+  [15, 6],
+  [16, 6],
+  [13, 7],
+  [16, 7],
+  [13, 8],
+  [16, 8],
+  [16, 11],
+  [13, 9],
+  [15, 9],
+  [16, 9],
+  [16, 10],
+  [14, 11],
+  [15, 11],
+  [16, 11],
 ]
 
 const SPIKES_TILES = [
@@ -113,6 +146,8 @@ class Scene2 extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('bg', 'assets/sky.png')
+
     this.load.image('avatar_left_jump_1', 'assets/avatar/left-jump-1.png')
     this.load.image('avatar_left_jump_2', 'assets/avatar/left-jump-2.png')
     this.load.image('avatar_left_jump_3', 'assets/avatar/left-jump-3.png')
@@ -132,6 +167,8 @@ class Scene2 extends Phaser.Scene {
     this.load.image('avatar_right_walk_5', 'assets/avatar/right-step-5.png')
     this.load.image('avatar_right_walk_6', 'assets/avatar/right-step-6.png')
 
+    this.load.image('dirt_tile', 'assets/dirt.png') // 32px x 32px
+    this.load.image('grass_tile', 'assets/grass.png') // 32px x 32px
     this.load.image('platform_tile', 'assets/platform_tile.png') // 32px x 32px
     this.load.image('spike_down_tile', 'assets/spike_down_tile.png') // 12px x 32px
     this.load.image('spike_right_tile', 'assets/spike_right_tile.png') // 12px x 32px
@@ -221,13 +258,37 @@ class Scene2 extends Phaser.Scene {
       fill: '#FFF',
     })
 
+    this.bg = this.add.image(
+      this.cameras.main.width / 2,
+      this.cameras.main.height / 2,
+      'bg',
+    )
+    const scaleX = this.cameras.main.width / this.bg.width
+    const scaleY = this.cameras.main.height / this.bg.height
+    const scale = Math.min(scaleX, scaleY)
+    this.bg.setScale(scale).setScrollFactor(0)
+    this.bg.setVisible(false)
+
     // create platforms
     const platforms = this.physics.add.staticGroup()
     const platformsCreated = PLATFORM_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
-      return platforms.create(x, y, 'platform_tile')
+      return platforms.create(x, y, 'grass_tile')
     })
+    DIRT_TILES.map((coordinate) => {
+      const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
+      const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
+      const platform = platforms.create(x, y, 'dirt_tile')
+      platformsCreated.push(platform)
+    })
+    CLOSET_TILES.map((coordinate) => {
+      const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
+      const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
+      const platform = platforms.create(x, y, 'dirt_tile')
+      platformsCreated.push(platform)
+    })
+    this.platforms = platformsCreated
     // hide platforms
     if (!DEBUG) {
       platformsCreated.map((platform) => {
@@ -260,6 +321,7 @@ class Scene2 extends Phaser.Scene {
         spike.setVisible(false)
       })
     }
+    this.spikes = spikesCreated
 
     // create goal
     const goal = this.physics.add.staticGroup()
@@ -517,6 +579,13 @@ class Scene2 extends Phaser.Scene {
       this.cameras.main.height / 2,
       'thumbsup',
     )
+    this.spikes.map((spike) => {
+      spike.setVisible(true)
+    })
+    this.platforms.map((platform) => {
+      platform.setVisible(true)
+    })
+    this.bg.setVisible(true)
     const scaleX = this.cameras.main.width / thumbsup.width
     const scaleY = this.cameras.main.height / thumbsup.height
     const scale = Math.min(scaleX, scaleY)
