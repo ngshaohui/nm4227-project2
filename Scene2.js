@@ -131,6 +131,10 @@ const DOWN_FACING_SPIKE_TILES = [
   [15, 3],
 ]
 
+const F_COORD = [2, 12]
+const C_COORD = [9, 8]
+const B_COORD = [13, 5]
+const B_PLUS_COORD = [19, 7]
 const GOAL = [25, 3]
 
 const BROOM_CLOSET_COORDINATES = {
@@ -147,6 +151,12 @@ class Scene2 extends Phaser.Scene {
 
   preload() {
     this.load.image('bg', 'assets/sky.png')
+
+    this.load.image('a_plus_grade', 'assets/grades/aplus.png')
+    this.load.image('b_grade', 'assets/grades/b.png')
+    this.load.image('b_plus_grade', 'assets/grades/bplus.png')
+    this.load.image('c_grade', 'assets/grades/c.png')
+    this.load.image('f_grade', 'assets/grades/f.png')
 
     this.load.image('avatar_left_jump_1', 'assets/avatar/left-jump-1.png')
     this.load.image('avatar_left_jump_2', 'assets/avatar/left-jump-2.png')
@@ -269,6 +279,33 @@ class Scene2 extends Phaser.Scene {
     this.bg.setScale(scale).setScrollFactor(0)
     this.bg.setVisible(false)
 
+    // grades
+    this.add.image(
+      getScreenCoordinate(F_COORD[0], TILE_SIZE),
+      getScreenCoordinate(F_COORD[1], TILE_SIZE),
+      'f_grade',
+    )
+    this.grades = [
+      this.add.image(
+        getScreenCoordinate(C_COORD[0], TILE_SIZE),
+        getScreenCoordinate(C_COORD[1], TILE_SIZE),
+        'c_grade',
+      ),
+      this.add.image(
+        getScreenCoordinate(B_COORD[0], TILE_SIZE),
+        getScreenCoordinate(B_COORD[1], TILE_SIZE),
+        'b_grade',
+      ),
+      this.add.image(
+        getScreenCoordinate(B_PLUS_COORD[0], TILE_SIZE),
+        getScreenCoordinate(B_PLUS_COORD[1], TILE_SIZE),
+        'b_plus_grade',
+      ),
+    ]
+    this.grades.forEach((grade) => {
+      grade.setVisible(false)
+    })
+
     // create platforms
     const platforms = this.physics.add.staticGroup()
     const platformsCreated = GRASS_TILES.map((coordinate) => {
@@ -327,7 +364,7 @@ class Scene2 extends Phaser.Scene {
     const goal = this.physics.add.staticGroup()
     const goalX = getScreenCoordinate(GOAL[0], TILE_SIZE)
     const goalY = getSpikeScreenYCoordinate(GOAL[1], TILE_SIZE)
-    goal.create(goalX, goalY, 'goal')
+    goal.create(goalX, goalY, 'a_plus_grade')
 
     // create player
     this.playerStartingX = getScreenCoordinate(2, TILE_SIZE)
@@ -517,6 +554,11 @@ class Scene2 extends Phaser.Scene {
     }
     this.updateDeathCounter(this.deathCounter)
     this.showMotivationalText(this.deathCounter)
+    if (this.deathCounter > 10) {
+      this.grades.forEach((grade) => {
+        grade.setVisible(true)
+      })
+    }
     setTimeout(() => {
       this.gameOver = false
       this.respawnSound.play()
