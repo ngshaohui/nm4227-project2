@@ -33,7 +33,7 @@ const DIRT_TILES = [
   [26, 12],
 ]
 
-const PLATFORM_TILES = [
+const GRASS_TILES = [
   [1, 13],
   [2, 13],
   [3, 13],
@@ -93,7 +93,7 @@ const PLATFORM_TILES = [
   [25, 4],
 ]
 
-const CLOSET_TILES = [
+const WOOD_TILES = [
   [13, 6],
   [14, 6],
   [15, 6],
@@ -169,7 +169,7 @@ class Scene2 extends Phaser.Scene {
 
     this.load.image('dirt_tile', 'assets/dirt.png') // 32px x 32px
     this.load.image('grass_tile', 'assets/grass.png') // 32px x 32px
-    this.load.image('platform_tile', 'assets/platform_tile.png') // 32px x 32px
+    this.load.image('wood_tile', 'assets/wood.png') // 32px x 32px
     this.load.image('spike_down_tile', 'assets/spike_down_tile.png') // 12px x 32px
     this.load.image('spike_right_tile', 'assets/spike_right_tile.png') // 12px x 32px
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
@@ -271,7 +271,7 @@ class Scene2 extends Phaser.Scene {
 
     // create platforms
     const platforms = this.physics.add.staticGroup()
-    const platformsCreated = PLATFORM_TILES.map((coordinate) => {
+    const platformsCreated = GRASS_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
       return platforms.create(x, y, 'grass_tile')
@@ -282,10 +282,10 @@ class Scene2 extends Phaser.Scene {
       const platform = platforms.create(x, y, 'dirt_tile')
       platformsCreated.push(platform)
     })
-    CLOSET_TILES.map((coordinate) => {
+    WOOD_TILES.map((coordinate) => {
       const x = getScreenCoordinate(coordinate[0], TILE_SIZE)
       const y = getScreenCoordinate(coordinate[1], TILE_SIZE)
-      const platform = platforms.create(x, y, 'dirt_tile')
+      const platform = platforms.create(x, y, 'wood_tile')
       platformsCreated.push(platform)
     })
     this.platforms = platformsCreated
