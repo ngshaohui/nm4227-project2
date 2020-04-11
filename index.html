@@ -16,13 +16,68 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
-    <div id="content"></div>
+    <div id="wrapper">
+      <div id="content"></div>
+      <div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Last Player</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th scope="col">Timing</th>
+              <th scope="col">Deaths</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="time">00:07</td>
+              <td id="deaths">0</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Audrey</td>
+              <td>00:07</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Elmie</td>
+              <td>00:11</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Alex</td>
+              <td>00:14</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <div>
       <a href="https://github.com/shinlos/nm4227-project2" target="_blank"
         >Source Code on Github</a
       >
     </div>
+    <script src="./index.js"></script>
   </body>
 </html>
