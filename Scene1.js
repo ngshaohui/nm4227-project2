@@ -265,7 +265,7 @@ class Scene1 extends Phaser.Scene {
       'audio_death_spike_right_tile',
     )
     this.jumpSound = this.sound.add('audio_jump')
-    this.respawnSound = this.sound.add('audio_respawn', { volume: 0.4 })
+    this.respawnSound = this.sound.add('audio_respawn', { volume: 0.2 })
     this.walkSound = this.sound.add('audio_walk', { volume: 0.1 })
     this.throttledWalkSound = throttle(function () {
       this.walkSound.play()
