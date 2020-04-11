@@ -361,17 +361,8 @@ class Scene1 extends Phaser.Scene {
   }
 
   showVictoryText() {
-    const text = this.add
-      .text(
-        (SCREEN_WIDTH * TILE_SIZE) / 2,
-        (SCREEN_HEIGHT * TILE_SIZE) / 2,
-        'brace yourself',
-      )
-      .setFontSize(64)
-      .setOrigin(0.5)
     setTimeout(() => {
-      text.destroy()
-      this.scene.start('playGame')
+      this.scene.start('brace')
     }, TIMEOUT_DURATION)
   }
 }

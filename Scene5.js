@@ -5,17 +5,21 @@ class Scene5 extends Phaser.Scene {
     super('verification')
   }
 
-  preload() {}
+  preload() {
+    this.load.image('submit_screen', 'assets/submit_screen.png')
+  }
 
   create() {
-    this.add
-      .text(
-        (SCREEN_WIDTH * TILE_SIZE) / 2,
-        (SCREEN_HEIGHT * TILE_SIZE) / 2,
-        'Your score has been submitted\nto Prof Alex for verification',
-      )
-      .setFontSize(40)
-      .setOrigin(0.5)
+    const submit_screen = this.add.image(
+      this.cameras.main.width / 2,
+      this.cameras.main.height / 2,
+      'submit_screen',
+    )
+    const scaleX = this.cameras.main.width / submit_screen.width
+    const scaleY = this.cameras.main.height / submit_screen.height
+    const scale = Math.min(scaleX, scaleY)
+    submit_screen.setScale(scale).setScrollFactor(0)
+
     setTimeout(() => {
       // go to next level
       this.scene.start('reveal')

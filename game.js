@@ -6,12 +6,13 @@ import { Scene3 } from './Scene3.js'
 import { Scene4 } from './Scene4.js'
 import { Scene5 } from './Scene5.js'
 import { Scene6 } from './Scene6.js'
+import { Scene7 } from './Scene7.js'
 
 const config = {
   type: Phaser.AUTO,
   width: SCREEN_WIDTH * TILE_SIZE,
   height: SCREEN_HEIGHT * TILE_SIZE,
-  scene: [Scene0, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6],
+  scene: [Scene0, Scene1, Scene7, Scene2, Scene3, Scene4, Scene5, Scene6],
   physics: {
     default: 'arcade',
     arcade: {
