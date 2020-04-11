@@ -231,6 +231,9 @@ class Scene2 extends Phaser.Scene {
     this.canJump = true
     this.deathCounter = 0
     this.inCloset = false
+    this.showC = false
+    this.showB = false
+    this.showBPlus = false
     const date = new Date()
     this.timeStart = date.getTime()
 
@@ -289,26 +292,24 @@ class Scene2 extends Phaser.Scene {
       getScreenCoordinate(F_COORD[1], TILE_SIZE),
       'f_grade',
     )
-    this.grades = [
-      this.add.image(
-        getScreenCoordinate(C_COORD[0], TILE_SIZE),
-        getScreenCoordinate(C_COORD[1], TILE_SIZE),
-        'c_grade',
-      ),
-      this.add.image(
-        getScreenCoordinate(B_COORD[0], TILE_SIZE),
-        getScreenCoordinate(B_COORD[1], TILE_SIZE),
-        'b_grade',
-      ),
-      this.add.image(
-        getScreenCoordinate(B_PLUS_COORD[0], TILE_SIZE),
-        getScreenCoordinate(B_PLUS_COORD[1], TILE_SIZE),
-        'b_plus_grade',
-      ),
-    ]
-    this.grades.forEach((grade) => {
-      grade.setVisible(false)
-    })
+    this.c = this.add.image(
+      getScreenCoordinate(C_COORD[0], TILE_SIZE),
+      getScreenCoordinate(C_COORD[1], TILE_SIZE),
+      'c_grade',
+    )
+    this.b = this.add.image(
+      getScreenCoordinate(B_COORD[0], TILE_SIZE),
+      getScreenCoordinate(B_COORD[1], TILE_SIZE),
+      'b_grade',
+    )
+    this.bPlus = this.add.image(
+      getScreenCoordinate(B_PLUS_COORD[0], TILE_SIZE),
+      getScreenCoordinate(B_PLUS_COORD[1], TILE_SIZE),
+      'b_plus_grade',
+    )
+    this.c.setVisible(false)
+    this.b.setVisible(false)
+    this.bPlus.setVisible(false)
 
     // create platforms
     const platforms = this.physics.add.staticGroup()
@@ -458,6 +459,25 @@ class Scene2 extends Phaser.Scene {
       ),
     )
 
+    this.c_rec = new Phaser.Geom.Rectangle(
+      getScreenCoordinate(C_COORD[0], TILE_SIZE),
+      getScreenCoordinate(C_COORD[1], TILE_SIZE),
+      TILE_SIZE,
+      TILE_SIZE,
+    )
+    this.b_rec = new Phaser.Geom.Rectangle(
+      getScreenCoordinate(B_COORD[0], TILE_SIZE),
+      getScreenCoordinate(B_COORD[1], TILE_SIZE),
+      TILE_SIZE,
+      TILE_SIZE,
+    )
+    this.b_plus_rec = new Phaser.Geom.Rectangle(
+      getScreenCoordinate(B_PLUS_COORD[0], TILE_SIZE),
+      getScreenCoordinate(B_PLUS_COORD[1], TILE_SIZE),
+      TILE_SIZE,
+      TILE_SIZE,
+    )
+
     this.cursors = this.input.keyboard.createCursorKeys()
   }
 
@@ -521,6 +541,66 @@ class Scene2 extends Phaser.Scene {
         this.closetCloseSound.play()
       }
     }
+
+    if (Phaser.Geom.Rectangle.Overlaps(this.player.getBounds(), this.c_rec)) {
+      if (!this.showC) {
+        this.showC = true
+        this.c.setVisible(true)
+        setTimeout(() => {
+          this.c.setVisible(false)
+        }, 500)
+        setTimeout(() => {
+          this.c.setVisible(true)
+        }, 1000)
+        setTimeout(() => {
+          this.c.setVisible(false)
+        }, 1500)
+      }
+    } else {
+      if (this.showC) {
+        this.showC = false
+      }
+    }
+    if (Phaser.Geom.Rectangle.Overlaps(this.player.getBounds(), this.b_rec)) {
+      if (!this.showB) {
+        this.showB = true
+        this.b.setVisible(true)
+        setTimeout(() => {
+          this.b.setVisible(false)
+        }, 500)
+        setTimeout(() => {
+          this.b.setVisible(true)
+        }, 1000)
+        setTimeout(() => {
+          this.b.setVisible(false)
+        }, 1500)
+      }
+    } else {
+      if (this.showB) {
+        this.showB = false
+      }
+    }
+    if (
+      Phaser.Geom.Rectangle.Overlaps(this.player.getBounds(), this.b_plus_rec)
+    ) {
+      if (!this.showBPlus) {
+        this.showBPlus = true
+        this.bPlus.setVisible(true)
+        setTimeout(() => {
+          this.bPlus.setVisible(false)
+        }, 500)
+        setTimeout(() => {
+          this.bPlus.setVisible(true)
+        }, 1000)
+        setTimeout(() => {
+          this.bPlus.setVisible(false)
+        }, 1500)
+      }
+    } else {
+      if (this.showBPlus) {
+        this.showBPlus = false
+      }
+    }
   }
 
   broomClosetText(time) {
@@ -567,17 +647,6 @@ class Scene2 extends Phaser.Scene {
     }
     this.updateDeathCounter(this.deathCounter)
     this.showMotivationalText(this.deathCounter)
-    if (this.deathCounter > 10) {
-      this.grades.forEach((grade) => {
-        grade.setVisible(true)
-        setTimeout(() => {
-          grade.setVisible(false)
-        }, 500)
-        setTimeout(() => {
-          grade.setVisible(true)
-        }, 1000)
-      })
-    }
     setTimeout(() => {
       this.gameOver = false
       this.respawnSound.play()
