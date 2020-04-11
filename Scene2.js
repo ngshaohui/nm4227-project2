@@ -203,6 +203,10 @@ class Scene2 extends Phaser.Scene {
     }, 200)
     this.load.audio('audio_closet_open', 'assets/audio/BC_door_open.mp3')
     this.load.audio('audio_closet_close', 'assets/audio/BC_door_close.mp3')
+    this.load.audio('bc0', 'assets/audio/bc/bc0.mp3')
+    this.load.audio('bc1', 'assets/audio/bc/bc1.mp3')
+    this.load.audio('bc2', 'assets/audio/bc/bc2.mp3')
+    this.load.audio('bc3', 'assets/audio/bc/bc3.mp3')
 
     this.load.audio('f0', 'assets/audio/taunts/f0.mp3')
     this.load.audio('f1', 'assets/audio/taunts/f1.mp3')
@@ -420,6 +424,10 @@ class Scene2 extends Phaser.Scene {
     this.walkSound = this.sound.add('audio_walk', { volume: 0.1 })
     this.closetOpenSound = this.sound.add('audio_closet_open')
     this.closetCloseSound = this.sound.add('audio_closet_close')
+    this.bc0 = this.sound.add('bc0')
+    this.bc1 = this.sound.add('bc1')
+    this.bc2 = this.sound.add('bc2')
+    this.bc3 = this.sound.add('bc3')
 
     // taunts
     this.f0 = this.sound.add('f0')
@@ -496,6 +504,7 @@ class Scene2 extends Phaser.Scene {
         // debounce
         this.inCloset = true
         this.closetOpenSound.play()
+        this.bc0.play()
         this.enterClosetTime = new Date()
       }
       const date = new Date()
@@ -516,10 +525,13 @@ class Scene2 extends Phaser.Scene {
   broomClosetText(time) {
     if (time >= 5 && time < 10) {
       // You stepped into a broom closet
+      this.bc1.play()
     } else if (time >= 10 && time < 15) {
       // Why are you still here? There’s nothing to see here
-    } else {
+      this.bc2.play()
+    } else if (time >= 15 && time < 20) {
       // OH, DID U GET THE BROOM CLOSET ENDING? THE BROOM CLOSET ENDING WAS MY FAVRITE!1 xD' ... I hope your friends find this concerning
+      this.bc3.play()
     }
   }
 
