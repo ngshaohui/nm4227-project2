@@ -136,7 +136,7 @@ class Scene1 extends Phaser.Scene {
     this.load.image('grass_tile', 'assets/grass.png') // 32px x 32px
     this.load.image('spike_down_tile', 'assets/spike_down_tile.png') // 12px x 32px
     this.load.image('spike_tile', 'assets/spike_tile.png') // 32px x 12px
-    this.load.image('goal', 'assets/aplus.png') // 32px x 32px
+    this.load.image('goal', 'assets/grades/aplus.png') // 32px x 32px
 
     this.load.audio('audio_winning', 'assets/audio/winning.mp3')
     this.load.audio('audio_death_spike_tile', 'assets/audio/death_spike.mp3')
