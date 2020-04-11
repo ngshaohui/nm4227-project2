@@ -557,6 +557,12 @@ class Scene2 extends Phaser.Scene {
     if (this.deathCounter > 10) {
       this.grades.forEach((grade) => {
         grade.setVisible(true)
+        setTimeout(() => {
+          grade.setVisible(false)
+        }, 500)
+        setTimeout(() => {
+          grade.setVisible(true)
+        }, 1000)
       })
     }
     setTimeout(() => {
